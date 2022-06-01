@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.exceptions.CategoriaExistenteException;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
-import br.com.serratec.ecommerce.exceptions.IdNotFoundException;
 import br.com.serratec.ecommerce.models.Categoria;
 import br.com.serratec.ecommerce.repositories.CategoriaRepositorio;
 
@@ -16,12 +15,20 @@ import br.com.serratec.ecommerce.repositories.CategoriaRepositorio;
 public class CategoriaService {
 	@Autowired
 	CategoriaRepositorio categoriaRepositorio;
+	
+	
+	public void verificaExiste(String nome) throws CategoriaExistenteException {
+		Optional<Categoria> optional = categoriaRepositorio.findByNome(nome);
+		if (optional.isPresent()) {
+			throw new CategoriaExistenteException();
+		}
+	}
 
-	public List<Categoria> listarCategoria() {
+	public List<Categoria> listarTudo() {
 		return categoriaRepositorio.findAll();
 	}
 
-	public Categoria listarId(Integer id) throws CategoriaInexistenteException {
+	public Categoria listar(Integer id) throws CategoriaInexistenteException {
 		Optional<Categoria> optional = categoriaRepositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new CategoriaInexistenteException(); // TODO tratar
@@ -30,32 +37,25 @@ public class CategoriaService {
 		return optional.get();
 	}
 
-	public void verificarCategoriaExiste(String nome) throws CategoriaExistenteException {
-		Optional<Categoria> optional = categoriaRepositorio.findByNome(nome);
-		if (optional.isPresent()) {
-			throw new CategoriaExistenteException();
-		}
-	}
-
 	public void inserir(Categoria categoria) throws CategoriaExistenteException {
-		verificarCategoriaExiste(categoria.getNome());
+		verificaExiste(categoria.getNome());
 		categoriaRepositorio.save(categoria);
 	}
 
-	public Categoria atualizar(Categoria categoria, String nome) throws CategoriaInexistenteException, CategoriaExistenteException  {
-        Optional<Categoria> optional = categoriaRepositorio.findByNome(nome);
+	public Categoria atualizar(Categoria categoria, Integer id) throws CategoriaInexistenteException, CategoriaExistenteException  {
+        Optional<Categoria> optional = categoriaRepositorio.findById(id);
         if (optional.isEmpty()) {
             throw new CategoriaInexistenteException();
         }
         Categoria oldCategoria = optional.get();
-        if (!categoria.getNome().equals("") && categoria.getNome() != null) {
-            verificarCategoriaExiste(categoria.getNome());
+        if (categoria.getNome() != null && !categoria.getNome().equals("")) {
+            verificaExiste(categoria.getNome());
             oldCategoria.setNome(categoria.getNome());
         }
-        if (!categoria.getDescricao().equals("") && categoria.getDescricao() != null) {
+        if (categoria.getDescricao() != null && !categoria.getDescricao().equals("")) {
             oldCategoria.setDescricao(categoria.getDescricao());
         }
-        return categoriaRepositorio.save(categoria);
+        return categoriaRepositorio.save(oldCategoria);
 	}
 
 	public void deletar(Integer id) throws CategoriaInexistenteException  {
