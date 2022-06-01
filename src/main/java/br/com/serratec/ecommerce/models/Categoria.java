@@ -11,23 +11,27 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 public class Categoria {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	@NotNull
 	private String nome;
+	
 	private String descricao;
-	@OneToMany
+	
+	@OneToMany(mappedBy = "categoria")
 	private List<Produto> produtos;
 
+	
+	
 	public Categoria() {
 		super();
 	}
 
-	public Categoria(Integer id, @NotNull String nome, String descricao) {
-
+	public Categoria(Integer id, @NotNull String nome, String descricao, List<Produto> produtos) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.descricao = descricao;
@@ -58,4 +62,11 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 }

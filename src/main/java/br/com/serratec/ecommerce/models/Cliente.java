@@ -8,56 +8,52 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
 
 @Entity
 public class Cliente {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
-	@NotNull
-	private String username;
-
-	@NotNull
-	private String email;
-
-	@NotNull
-	private String senha;
-
+	
 	@NotNull
 	private String nome;
-
+	
 	@NotNull
 	private String cpf;
-	private String telefone;
-	private LocalDate dataNascimento;
 	
-	@OneToMany
+	private String telefone;
+	
+	private LocalDate dataNacimento;
+	
+	@OneToOne
+	private Usuario usuario;
+	
+	@OneToMany(mappedBy = "cliente")
+	private List<Endereco> enderecos;
+	
+	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos;
 	
-	@NotNull
-	@OneToMany
-	private List<Endereco> enderecos;
-
+	
 	public Cliente() {
 		super();
 	}
 
-	public Cliente(Integer id, @NotNull String username, @NotNull String email, @NotNull String senha,
-			@NotNull String nome, @NotNull String cpf, String telefone, LocalDate dataNascimento,
-			@NotNull Endereco enderecos) {
-		
+	public Cliente(Integer id, @NotNull String nome, @NotNull String cpf, String telefone, LocalDate dataNacimento,
+			Usuario usuario, List<Endereco> enderecos, List<Pedido> pedidos) {
+		super();
 		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.senha = senha;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
-		this.dataNascimento = dataNascimento;
+		this.dataNacimento = dataNacimento;
+		this.usuario = usuario;
 		this.enderecos = enderecos;
+		this.pedidos = pedidos;
 	}
 
 	public Integer getId() {
@@ -66,30 +62,6 @@ public class Cliente {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
 	}
 
 	public String getNome() {
@@ -116,20 +88,35 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public LocalDate getDataNascimento() {
-		return dataNascimento;
+	public LocalDate getDataNacimento() {
+		return dataNacimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setDataNacimento(LocalDate dataNacimento) {
+		this.dataNacimento = dataNacimento;
 	}
 
-	public Endereco getEndereco() {
-		return endereco;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
+	public List<Endereco> getEnderecos() {
+		return enderecos;
+	}
+
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 }

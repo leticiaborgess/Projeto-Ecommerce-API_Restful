@@ -1,46 +1,56 @@
 package br.com.serratec.ecommerce.models;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Produto {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	@NotNull
 	private String nome;
+	
 	private String descricao;
-
+	
 	@NotNull
 	private Double preco;
-
+	
 	@NotNull
 	private Integer qntEstoque;
-
+	
 	@NotNull
 	private LocalDate dataCadastro;
-	// TODO como declarar imagem
-	// private ______ imagem;
-
-	@NotNull
+	
+	//TODO colocar imagem
+	
+	@OneToMany(mappedBy = "produto")
+	private List<ProdutoPedido> produtosPedidos;
+	
+	@ManyToOne
+	private Funcionario funcionario;
+	
 	@ManyToOne
 	private Categoria categoria;
-
+	
+	
 	public Produto() {
 		super();
 	}
 
 	public Produto(Integer id, @NotNull String nome, String descricao, @NotNull Double preco,
-			@NotNull Integer qntEstoque, @NotNull LocalDate dataCadastro, @NotNull Categoria categoria) {
+			@NotNull Integer qntEstoque, @NotNull LocalDate dataCadastro, List<ProdutoPedido> produtosPedidos,
+			Funcionario funcionario, Categoria categoria) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -48,6 +58,8 @@ public class Produto {
 		this.preco = preco;
 		this.qntEstoque = qntEstoque;
 		this.dataCadastro = dataCadastro;
+		this.produtosPedidos = produtosPedidos;
+		this.funcionario = funcionario;
 		this.categoria = categoria;
 	}
 
@@ -99,6 +111,22 @@ public class Produto {
 		this.dataCadastro = dataCadastro;
 	}
 
+	public List<ProdutoPedido> getProdutosPedidos() {
+		return produtosPedidos;
+	}
+
+	public void setProdutosPedidos(List<ProdutoPedido> produtosPedidos) {
+		this.produtosPedidos = produtosPedidos;
+	}
+
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -106,5 +134,4 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-
 }
