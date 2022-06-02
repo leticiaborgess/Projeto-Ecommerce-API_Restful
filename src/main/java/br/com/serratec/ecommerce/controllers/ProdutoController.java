@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.serratec.ecommerce.dtos.ProdutoDTO;
+import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
+import br.com.serratec.ecommerce.mappers.ProdutoMapper;
 import br.com.serratec.ecommerce.models.Produto;
 import br.com.serratec.ecommerce.services.ProdutoService;
 
@@ -24,9 +27,12 @@ public class ProdutoController {
 	@Autowired
 	ProdutoService produtoService;
 	
+	@Autowired
+	ProdutoMapper produtoMapper;
+	
 	@PostMapping
-	public void createProduto(@RequestBody Produto produto) throws ProdutoExistenteException {
-		produtoService.inserir(produto);
+	public void createProduto(@RequestBody ProdutoDTO produtoDTO) throws ProdutoExistenteException, CategoriaInexistenteException {
+		produtoService.inserir(produtoMapper.produtoDtoToProduto(produtoDTO));
 	}
 	
 	@GetMapping

@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Categoria {
 	
@@ -22,6 +24,7 @@ public class Categoria {
 	private String descricao;
 	
 	@OneToMany(mappedBy = "categoria")
+	@JsonIgnore
 	private List<Produto> produtos;
 
 	
