@@ -40,8 +40,8 @@ public class CategoriaController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateCategoria(@PathVariable Integer id, @RequestBody Categoria catAtualizacao) throws CategoriaInexistenteException, CategoriaExistenteException {
-		categoriaService.atualizar(catAtualizacao, id);
+	public void updateCategoria(@PathVariable Integer id, @RequestBody Categoria atualizacao) throws CategoriaInexistenteException, CategoriaExistenteException {
+		categoriaService.atualizar(atualizacao, id);
 	}
 	
 	@DeleteMapping("/{id}")
