@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
@@ -42,7 +41,6 @@ public class FuncionarioService {
 		return optional.get();
 	}
 	
-	@Transactional
 	public void inserir(Funcionario funcionario) throws FuncionarioExistenteException, UsuarioExistenteException{
 		verificaExiste(funcionario.getCpf());
 		usuarioService.inserir(funcionario.getUsuario());
