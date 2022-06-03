@@ -57,10 +57,12 @@ public class ClienteService {
 		if (cliente.getTelefone() != null && !cliente.getTelefone().equals("")) {
 			oldCliente.setTelefone(cliente.getTelefone());
 		}
-		if (cliente.getDataNacimento() != null) {
-			oldCliente.setDataNacimento(cliente.getDataNacimento());
+		if (cliente.getDataNascimento() != null) {
+			oldCliente.setDataNascimento(cliente.getDataNascimento());
 		}
-		//TODO fazer endereço
+		if (cliente.getEnderecos() != null) {
+			oldCliente.setEnderecos(cliente.getEnderecos());
+		}
 		return clienteRepositorio.save(oldCliente);
 	}
 

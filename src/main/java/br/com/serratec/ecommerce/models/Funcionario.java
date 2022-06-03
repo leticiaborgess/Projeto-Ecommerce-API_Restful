@@ -32,7 +32,7 @@ public class Funcionario {
 	private String telefone;
 	
 	@Past
-	private LocalDate dataNacimento;
+	private LocalDate dataNascimento;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
@@ -93,8 +93,8 @@ public class Funcionario {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(LocalDate dataNacimento) {
-		this.dataNascimento = dataNacimento;
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	public Usuario getUsuario() {

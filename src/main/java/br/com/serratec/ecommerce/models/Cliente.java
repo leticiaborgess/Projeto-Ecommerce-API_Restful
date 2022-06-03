@@ -32,7 +32,7 @@ public class Cliente {
 	private String telefone;
 	
 	@Past
-	private LocalDate dataNacimento;
+	private LocalDate dataNascimento;
 	
 	@OneToOne
 	private Usuario usuario;
@@ -48,14 +48,14 @@ public class Cliente {
 		super();
 	}
 
-	public Cliente(Integer id, @NotNull String nome, @NotNull String cpf, String telefone, LocalDate dataNacimento,
+	public Cliente(Integer id, @NotNull String nome, @NotNull String cpf, String telefone, LocalDate dataNascimento,
 			Usuario usuario, List<Endereco> enderecos, List<Pedido> pedidos) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
-		this.dataNacimento = dataNacimento;
+		this.dataNascimento = dataNascimento;
 		this.usuario = usuario;
 		this.enderecos = enderecos;
 		this.pedidos = pedidos;
@@ -93,12 +93,12 @@ public class Cliente {
 		this.telefone = telefone;
 	}
 
-	public LocalDate getDataNacimento() {
-		return dataNacimento;
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
 	}
 
-	public void setDataNacimento(LocalDate dataNacimento) {
-		this.dataNacimento = dataNacimento;
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	public Usuario getUsuario() {
