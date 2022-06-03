@@ -8,6 +8,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Usuario {
 	
@@ -29,9 +31,11 @@ public class Usuario {
 	private String role;
 	
 	@OneToOne(mappedBy = "usuario")
+	@JsonIgnore
 	private Cliente cliente;
 	
 	@OneToOne(mappedBy = "usuario")
+	@JsonIgnore
 	private Funcionario funcionario;
 	
 
