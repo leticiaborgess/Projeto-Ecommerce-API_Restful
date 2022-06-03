@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
+import br.com.serratec.ecommerce.mappers.UsuarioMapper;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.services.FuncionarioService;
 
@@ -24,9 +27,12 @@ public class FuncionarioController {
 	@Autowired
 	FuncionarioService funcionarioService;
 	
+	@Autowired
+	UsuarioMapper usuarioMapper;
+	
 	@PostMapping
-	public void createFuncionario(@RequestBody Funcionario funcionario) throws FuncionarioExistenteException {
-		funcionarioService.inserir(funcionario);
+	public void createFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) throws FuncionarioExistenteException, UsuarioExistenteException {
+		funcionarioService.inserir(usuarioMapper.funcionarioDtoToFuncionario(funcionarioDTO));
 	}
 	
 	@GetMapping
