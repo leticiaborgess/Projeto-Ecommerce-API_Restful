@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 public class Produto {
@@ -30,6 +31,7 @@ public class Produto {
 	private Integer qntEstoque;
 	
 	@NotNull
+	@Past
 	private LocalDate dataCadastro;
 	
 	//TODO colocar imagem

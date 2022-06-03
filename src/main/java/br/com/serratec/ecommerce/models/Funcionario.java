@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 public class Funcionario {
@@ -23,11 +26,13 @@ public class Funcionario {
 	private String nome;
 	
 	@NotNull
+	@CPF
 	private String cpf;
 	
 	private String telefone;
 	
-	private LocalDate dataNascimento;
+	@Past
+	private LocalDate dataNacimento;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;

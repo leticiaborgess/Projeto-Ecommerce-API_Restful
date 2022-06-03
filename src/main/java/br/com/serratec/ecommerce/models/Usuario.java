@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,6 +18,7 @@ public class Usuario {
 	private Integer id;
 	
 	@NotNull
+	@Email
 	private String email;
 	
 	@NotNull

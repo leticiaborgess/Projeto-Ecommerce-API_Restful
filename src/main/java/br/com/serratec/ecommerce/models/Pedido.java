@@ -9,7 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 @Entity
 public class Pedido {
@@ -25,9 +27,11 @@ public class Pedido {
 	private Double valorTotal;
 	
 	@NotNull
+	@Past
 	private LocalDate data;
 	
 	@NotNull
+	@Future
 	private LocalDate dataEntrega;
 	
 	@NotNull
