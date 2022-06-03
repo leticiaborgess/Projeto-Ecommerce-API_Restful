@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.repositories.FuncionarioRepositorio;
 
@@ -15,6 +17,9 @@ import br.com.serratec.ecommerce.repositories.FuncionarioRepositorio;
 public class FuncionarioService {
 	@Autowired
 	FuncionarioRepositorio funcionarioRepositorio;
+	
+	@Autowired
+	UsuarioService usuarioService;
 	
 	
 	public void verificaExiste(String cpf) throws FuncionarioExistenteException {
@@ -36,8 +41,10 @@ public class FuncionarioService {
 		}
 		return optional.get();
 	}
-
-	public void inserir(Funcionario funcionario) throws FuncionarioExistenteException{
+	
+	@Transactional
+	public void inserir(Funcionario funcionario) throws FuncionarioExistenteException, UsuarioExistenteException{
+		usuarioService.inserir(funcionario.getUsuario());
 		verificaExiste(funcionario.getCpf());
 		funcionarioRepositorio.save(funcionario);
 	}

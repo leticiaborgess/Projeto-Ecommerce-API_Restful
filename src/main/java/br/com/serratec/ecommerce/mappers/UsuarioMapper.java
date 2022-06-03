@@ -14,6 +14,7 @@ public class UsuarioMapper {
 	@Autowired
 	UsuarioService usuarioService;
 	
+	
 	public Funcionario funcionarioDtoToFuncionario(FuncionarioDTO funcionarioDTO) {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(funcionarioDTO.getEmail());
