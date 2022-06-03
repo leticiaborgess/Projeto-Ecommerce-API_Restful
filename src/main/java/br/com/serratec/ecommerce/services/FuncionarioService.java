@@ -44,8 +44,8 @@ public class FuncionarioService {
 	
 	@Transactional
 	public void inserir(Funcionario funcionario) throws FuncionarioExistenteException, UsuarioExistenteException{
-		usuarioService.inserir(funcionario.getUsuario());
 		verificaExiste(funcionario.getCpf());
+		usuarioService.inserir(funcionario.getUsuario());
 		funcionarioRepositorio.save(funcionario);
 	}
 
