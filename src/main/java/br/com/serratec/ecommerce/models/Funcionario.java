@@ -26,7 +26,7 @@ public class Funcionario {
 	
 	private String telefone;
 	
-	private LocalDate dataNacimento;
+	private LocalDate dataNascimento;
 	
 	@OneToOne
 	private Usuario usuario;
@@ -39,14 +39,14 @@ public class Funcionario {
 		super();
 	}
 
-	public Funcionario(Integer id, @NotNull String nome, @NotNull String cpf, String telefone, LocalDate dataNacimento,
+	public Funcionario(Integer id, @NotNull String nome, @NotNull String cpf, String telefone, LocalDate dataNascimento,
 			Usuario usuario, List<Produto> produtosCadastrados) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.telefone = telefone;
-		this.dataNacimento = dataNacimento;
+		this.dataNascimento = dataNascimento;
 		this.usuario = usuario;
 		this.produtosCadastrados = produtosCadastrados;
 	}
@@ -83,12 +83,12 @@ public class Funcionario {
 		this.telefone = telefone;
 	}
 
-	public LocalDate getDataNacimento() {
-		return dataNacimento;
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
 	}
 
-	public void setDataNacimento(LocalDate dataNacimento) {
-		this.dataNacimento = dataNacimento;
+	public void setDataNascimento(LocalDate dataNacimento) {
+		this.dataNascimento = dataNacimento;
 	}
 
 	public Usuario getUsuario() {
