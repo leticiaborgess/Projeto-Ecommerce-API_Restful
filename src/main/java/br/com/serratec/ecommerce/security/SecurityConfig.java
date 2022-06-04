@@ -19,6 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthService service;
 
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
     private static String[]AUTH_WHITELIST = {
         "/cliente"
         //TODO: endpoints liberados
@@ -33,12 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service).passwordEncoder(this.bCryptPasswordEncoder());
+        auth.userDetailsService(service).passwordEncoder(bCryptPasswordEncoder);
     }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-    //TODO: chamar criptografia na hora de salvar senha
 }
