@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.serratec.ecommerce.dtos.ClienteDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
+import br.com.serratec.ecommerce.mappers.UsuarioMapper;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.services.ClienteService;
 
@@ -25,9 +28,12 @@ public class ClienteController {
 	@Autowired
 	ClienteService clienteService;
 	
+	@Autowired
+	UsuarioMapper usuarioMapper;
+	
 	@PostMapping
-	public void createCliente(@RequestBody Cliente cliente) throws ClienteExistenteException {
-		clienteService.inserir(cliente);
+	public void createCliente(@RequestBody ClienteDTO clienteDTO) throws ClienteExistenteException, UsuarioExistenteException {
+		clienteService.inserir(usuarioMapper.clienteDtoToCliente(clienteDTO));
 	}
 	
 	@GetMapping

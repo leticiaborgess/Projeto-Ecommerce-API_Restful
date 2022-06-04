@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.repositories.ClienteRepositorio;
 
@@ -16,6 +17,9 @@ import br.com.serratec.ecommerce.repositories.ClienteRepositorio;
 public class ClienteService {
 	@Autowired
 	ClienteRepositorio clienteRepositorio;
+	
+	@Autowired
+	UsuarioService usuarioService;
 
 	public void verificaExiste(String cpf) throws ClienteExistenteException {
 		Optional<Cliente> optional = clienteRepositorio.findByCpf(cpf);
@@ -37,8 +41,9 @@ public class ClienteService {
 		return optional.get();
 	}
 
-	public void inserir(Cliente cliente) throws ClienteExistenteException {
+	public void inserir(Cliente cliente) throws ClienteExistenteException, UsuarioExistenteException {
 		verificaExiste(cliente.getCpf());
+		usuarioService.inserir(cliente.getUsuario());
 		clienteRepositorio.save(cliente);
 	}
 
