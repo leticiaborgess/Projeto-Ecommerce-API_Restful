@@ -1,9 +1,12 @@
 package br.com.serratec.ecommerce.mappers;
 
+import org.springframework.stereotype.Component;
+
 import br.com.serratec.ecommerce.dtos.ClienteDTO;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.models.Usuario;
 
+@Component
 public class ClienteMapper {
 	
 	public Cliente clienteDtoToCliente(ClienteDTO clienteDTO) {

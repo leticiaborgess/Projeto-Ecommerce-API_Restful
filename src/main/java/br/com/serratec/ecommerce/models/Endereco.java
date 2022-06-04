@@ -29,6 +29,7 @@ public class Endereco {
 	@NotNull
 	private String estado;
 	
+	@NotNull
 	private String numero;
 	
 	private String complemento;

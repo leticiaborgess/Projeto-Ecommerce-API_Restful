@@ -1,9 +1,12 @@
 package br.com.serratec.ecommerce.mappers;
 
+import org.springframework.stereotype.Component;
+
 import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.models.Usuario;
 
+@Component
 public class FuncionarioMapper {
 	
 	public Funcionario funcionarioDtoToFuncionario(FuncionarioDTO funcionarioDTO) {
