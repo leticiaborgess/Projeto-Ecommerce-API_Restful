@@ -2,7 +2,11 @@ package br.com.serratec.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +35,9 @@ public class ProdutoController {
 	ProdutoMapper produtoMapper;
 	
 	@PostMapping
-	public void createProduto(@RequestBody ProdutoDTO produtoDTO) throws ProdutoExistenteException, CategoriaInexistenteException {
+	public ResponseEntity<String> createProduto(@Valid @RequestBody ProdutoDTO produtoDTO) throws ProdutoExistenteException, CategoriaInexistenteException {
 		produtoService.inserir(produtoMapper.produtoDtoToProduto(produtoDTO));
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
@@ -46,7 +51,7 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateProduto(@PathVariable Integer id, @RequestBody Produto atualizacao) throws ProdutoInexistenteException, ProdutoExistenteException {
+	public void updateProduto(@PathVariable Integer id, @Valid @RequestBody Produto atualizacao) throws ProdutoInexistenteException, ProdutoExistenteException {
 		produtoService.atualizar(atualizacao, id);
 	}
 	

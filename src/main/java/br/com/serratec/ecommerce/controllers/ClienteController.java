@@ -2,7 +2,11 @@ package br.com.serratec.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,8 +36,9 @@ public class ClienteController {
 	UsuarioMapper usuarioMapper;
 	
 	@PostMapping
-	public void createCliente(@RequestBody ClienteDTO clienteDTO) throws ClienteExistenteException, UsuarioExistenteException {
+	public ResponseEntity<String> createCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws ClienteExistenteException, UsuarioExistenteException {
 		clienteService.inserir(usuarioMapper.clienteDtoToCliente(clienteDTO));
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
@@ -47,7 +52,7 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateCliente(@PathVariable Integer id, @RequestBody Cliente atualizacao) throws ClienteInexistenteException, ClienteExistenteException {
+	public void updateCliente(@PathVariable Integer id, @Valid @RequestBody Cliente atualizacao) throws ClienteInexistenteException, ClienteExistenteException {
 		clienteService.atualizar(atualizacao, id);
 	}
 	

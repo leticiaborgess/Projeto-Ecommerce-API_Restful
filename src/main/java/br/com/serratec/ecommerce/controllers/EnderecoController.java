@@ -2,7 +2,11 @@ package br.com.serratec.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,12 +38,13 @@ public class EnderecoController {
 	RestViaCep restViaCep;
 	
 	@PostMapping
-	public void createEndereco(@RequestBody EnderecoDTO enderecoDTO) throws EnderecoExistenteException {
+	public ResponseEntity<String> createEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) throws EnderecoExistenteException {
 		Endereco endereco = enderecoMapper.ViaCepDtoToEndereco(restViaCep.getViaCep(enderecoDTO.getCep()));
 		endereco.setNumero(enderecoDTO.getNumero());
 		endereco.setComplemento(enderecoDTO.getComplemento());
 		
 		enderecoService.inserir(endereco);
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
@@ -53,7 +58,7 @@ public class EnderecoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateEndereco(@PathVariable Integer id, @RequestBody EnderecoDTO atualizacaoDTO) throws EnderecoInexistenteException, EnderecoExistenteException {
+	public void updateEndereco(@PathVariable Integer id, @Valid @RequestBody EnderecoDTO atualizacaoDTO) throws EnderecoInexistenteException, EnderecoExistenteException {
 		Endereco atualizacao = enderecoMapper.ViaCepDtoToEndereco(restViaCep.getViaCep(atualizacaoDTO.getCep()));
 		atualizacao.setNumero(atualizacaoDTO.getNumero());
 		atualizacao.setComplemento(atualizacaoDTO.getComplemento());

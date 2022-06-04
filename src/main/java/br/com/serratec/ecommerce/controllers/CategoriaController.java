@@ -2,7 +2,11 @@ package br.com.serratec.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +29,9 @@ public class CategoriaController {
 	CategoriaService categoriaService;
 	
 	@PostMapping
-	public void createCategoria(@RequestBody Categoria categoria) throws CategoriaExistenteException {
+	public ResponseEntity<String> createCategoria(@Valid @RequestBody Categoria categoria) throws CategoriaExistenteException {
 		categoriaService.inserir(categoria);
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
@@ -40,7 +45,7 @@ public class CategoriaController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateCategoria(@PathVariable Integer id, @RequestBody Categoria atualizacao) throws CategoriaInexistenteException, CategoriaExistenteException {
+	public void updateCategoria(@PathVariable Integer id, @Valid @RequestBody Categoria atualizacao) throws CategoriaInexistenteException, CategoriaExistenteException {
 		categoriaService.atualizar(atualizacao, id);
 	}
 	

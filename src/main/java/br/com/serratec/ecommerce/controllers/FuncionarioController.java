@@ -2,7 +2,11 @@ package br.com.serratec.ecommerce.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +35,9 @@ public class FuncionarioController {
 	UsuarioMapper usuarioMapper;
 	
 	@PostMapping
-	public void createFuncionario(@RequestBody FuncionarioDTO funcionarioDTO) throws FuncionarioExistenteException, UsuarioExistenteException {
+	public ResponseEntity<String> createFuncionario(@Valid @RequestBody FuncionarioDTO funcionarioDTO) throws FuncionarioExistenteException, UsuarioExistenteException {
 		funcionarioService.inserir(usuarioMapper.funcionarioDtoToFuncionario(funcionarioDTO));
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
@@ -46,7 +51,7 @@ public class FuncionarioController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateFuncionario(@PathVariable Integer id, @RequestBody Funcionario atualizacao) throws FuncionarioInexistenteException, FuncionarioExistenteException {
+	public void updateFuncionario(@PathVariable Integer id, @Valid @RequestBody Funcionario atualizacao) throws FuncionarioInexistenteException, FuncionarioExistenteException {
 		funcionarioService.atualizar(atualizacao, id);
 	}
 	
