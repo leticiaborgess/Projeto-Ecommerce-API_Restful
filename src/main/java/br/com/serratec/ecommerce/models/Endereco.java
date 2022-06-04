@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Endereco {
 	
@@ -35,6 +37,7 @@ public class Endereco {
 	private String complemento;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Cliente cliente;
 	
 	

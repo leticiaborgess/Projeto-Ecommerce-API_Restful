@@ -15,6 +15,8 @@ import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Funcionario {
 	
@@ -38,6 +40,7 @@ public class Funcionario {
 	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "funcionario")
+	@JsonIgnore
 	private List<Produto> produtosCadastrados;
 	
 	
