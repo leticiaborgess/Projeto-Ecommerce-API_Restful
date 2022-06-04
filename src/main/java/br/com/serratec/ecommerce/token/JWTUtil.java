@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
-public class JWUtil {
+public class JWTUtil {
 
     @Value("${jwt.secret}")
     private String secret;
