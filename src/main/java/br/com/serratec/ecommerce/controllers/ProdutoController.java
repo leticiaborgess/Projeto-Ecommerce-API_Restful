@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.ProdutoDTO;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
+import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
 import br.com.serratec.ecommerce.mappers.ProdutoMapper;
@@ -35,7 +36,7 @@ public class ProdutoController {
 	ProdutoMapper produtoMapper;
 	
 	@PostMapping
-	public ResponseEntity<String> createProduto(@Valid @RequestBody ProdutoDTO produtoDTO) throws ProdutoExistenteException, CategoriaInexistenteException {
+	public ResponseEntity<String> createProduto(@Valid @RequestBody ProdutoDTO produtoDTO) throws ProdutoExistenteException, CategoriaInexistenteException, FuncionarioInexistenteException {
 		produtoService.inserir(produtoMapper.produtoDtoToProduto(produtoDTO));
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
@@ -51,8 +52,8 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateProduto(@PathVariable Integer id, @Valid @RequestBody Produto atualizacao) throws ProdutoInexistenteException, ProdutoExistenteException {
-		produtoService.atualizar(atualizacao, id);
+	public void updateProduto(@PathVariable Integer id, @Valid @RequestBody ProdutoDTO atualizacaoDTO) throws ProdutoInexistenteException, ProdutoExistenteException, CategoriaInexistenteException, FuncionarioInexistenteException {
+		produtoService.atualizar(produtoMapper.produtoDtoToProduto(atualizacaoDTO), id);
 	}
 	
 	@DeleteMapping("/{id}")

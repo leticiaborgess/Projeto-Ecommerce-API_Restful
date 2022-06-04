@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioInexistenteException;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.repositories.ClienteRepositorio;
 
@@ -48,7 +49,7 @@ public class ClienteService {
 	}
 
 	public Cliente atualizar(Cliente cliente, Integer id)
-			throws ClienteInexistenteException, ClienteExistenteException {
+			throws ClienteInexistenteException, ClienteExistenteException, UsuarioInexistenteException, UsuarioExistenteException {
 		Optional<Cliente> optional = clienteRepositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new ClienteInexistenteException();
@@ -68,6 +69,8 @@ public class ClienteService {
 		if (cliente.getEnderecos() != null) {
 			oldCliente.setEnderecos(cliente.getEnderecos());
 		}
+		
+		usuarioService.atualizar(cliente.getUsuario(), id);
 		return clienteRepositorio.save(oldCliente);
 	}
 

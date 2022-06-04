@@ -20,6 +20,7 @@ import br.com.serratec.ecommerce.dtos.ClienteDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioInexistenteException;
 import br.com.serratec.ecommerce.mappers.ClienteMapper;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.services.ClienteService;
@@ -52,8 +53,8 @@ public class ClienteController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateCliente(@PathVariable Integer id, @Valid @RequestBody Cliente atualizacao) throws ClienteInexistenteException, ClienteExistenteException {
-		clienteService.atualizar(atualizacao, id);
+	public void updateCliente(@PathVariable Integer id, @Valid @RequestBody ClienteDTO atualizacaoDTO) throws ClienteInexistenteException, ClienteExistenteException, UsuarioInexistenteException, UsuarioExistenteException {
+		clienteService.atualizar(clienteMapper.clienteDtoToCliente(atualizacaoDTO), id);
 	}
 	
 	@DeleteMapping("/{id}")

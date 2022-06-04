@@ -20,6 +20,7 @@ import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioInexistenteException;
 import br.com.serratec.ecommerce.mappers.FuncionarioMapper;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.services.FuncionarioService;
@@ -51,8 +52,8 @@ public class FuncionarioController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateFuncionario(@PathVariable Integer id, @Valid @RequestBody Funcionario atualizacao) throws FuncionarioInexistenteException, FuncionarioExistenteException {
-		funcionarioService.atualizar(atualizacao, id);
+	public void updateFuncionario(@PathVariable Integer id, @Valid @RequestBody FuncionarioDTO atualizacaoDTO) throws FuncionarioInexistenteException, FuncionarioExistenteException, UsuarioInexistenteException, UsuarioExistenteException {
+		funcionarioService.atualizar(funcionarioMapper.funcionarioDtoToFuncionario(atualizacaoDTO), id);
 	}
 	
 	@DeleteMapping("/{id}")

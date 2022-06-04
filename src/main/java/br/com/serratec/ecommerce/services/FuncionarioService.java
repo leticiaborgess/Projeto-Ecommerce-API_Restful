@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
+import br.com.serratec.ecommerce.exceptions.UsuarioInexistenteException;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.repositories.FuncionarioRepositorio;
 
@@ -47,7 +48,7 @@ public class FuncionarioService {
 		funcionarioRepositorio.save(funcionario);
 	}
 
-	public Funcionario atualizar(Funcionario funcionario, Integer id) throws FuncionarioInexistenteException, FuncionarioExistenteException {
+	public Funcionario atualizar(Funcionario funcionario, Integer id) throws FuncionarioInexistenteException, FuncionarioExistenteException, UsuarioInexistenteException, UsuarioExistenteException {
         Optional<Funcionario> optional = funcionarioRepositorio.findById(id);
         if (optional.isEmpty()) {
             throw new FuncionarioInexistenteException();
@@ -62,6 +63,8 @@ public class FuncionarioService {
         if (funcionario.getDataNascimento() != null) {
             oldFuncionario.setDataNascimento(funcionario.getDataNascimento());
         }
+        
+        usuarioService.atualizar(funcionario.getUsuario(), id);
         return funcionarioRepositorio.save(oldFuncionario);
 	}
 
