@@ -20,7 +20,7 @@ import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
-import br.com.serratec.ecommerce.mappers.UsuarioMapper;
+import br.com.serratec.ecommerce.mappers.FuncionarioMapper;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.services.FuncionarioService;
 
@@ -32,11 +32,11 @@ public class FuncionarioController {
 	FuncionarioService funcionarioService;
 	
 	@Autowired
-	UsuarioMapper usuarioMapper;
+	FuncionarioMapper funcionarioMapper;
 	
 	@PostMapping
 	public ResponseEntity<String> createFuncionario(@Valid @RequestBody FuncionarioDTO funcionarioDTO) throws FuncionarioExistenteException, UsuarioExistenteException {
-		funcionarioService.inserir(usuarioMapper.funcionarioDtoToFuncionario(funcionarioDTO));
+		funcionarioService.inserir(funcionarioMapper.funcionarioDtoToFuncionario(funcionarioDTO));
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	

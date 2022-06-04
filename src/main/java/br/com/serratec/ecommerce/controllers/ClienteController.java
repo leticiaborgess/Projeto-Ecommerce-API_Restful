@@ -20,7 +20,7 @@ import br.com.serratec.ecommerce.dtos.ClienteDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
-import br.com.serratec.ecommerce.mappers.UsuarioMapper;
+import br.com.serratec.ecommerce.mappers.ClienteMapper;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.services.ClienteService;
 
@@ -33,11 +33,11 @@ public class ClienteController {
 	ClienteService clienteService;
 	
 	@Autowired
-	UsuarioMapper usuarioMapper;
+	ClienteMapper clienteMapper;
 	
 	@PostMapping
 	public ResponseEntity<String> createCliente(@Valid @RequestBody ClienteDTO clienteDTO) throws ClienteExistenteException, UsuarioExistenteException {
-		clienteService.inserir(usuarioMapper.clienteDtoToCliente(clienteDTO));
+		clienteService.inserir(clienteMapper.clienteDtoToCliente(clienteDTO));
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
