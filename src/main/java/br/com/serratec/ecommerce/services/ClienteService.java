@@ -70,7 +70,7 @@ public class ClienteService {
 			oldCliente.setEnderecos(cliente.getEnderecos());
 		}
 		
-		usuarioService.atualizar(cliente.getUsuario(), id);
+		usuarioService.atualizar(cliente.getUsuario(), cliente.getUsuario().getId());
 		return clienteRepositorio.save(oldCliente);
 	}
 

@@ -64,7 +64,7 @@ public class FuncionarioService {
             oldFuncionario.setDataNascimento(funcionario.getDataNascimento());
         }
         
-        usuarioService.atualizar(funcionario.getUsuario(), id);
+        usuarioService.atualizar(funcionario.getUsuario(), funcionario.getUsuario().getId());
         return funcionarioRepositorio.save(oldFuncionario);
 	}
 
