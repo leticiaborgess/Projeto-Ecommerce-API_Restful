@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.EnderecoDTO;
+import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoExistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoInexistenteException;
 import br.com.serratec.ecommerce.mappers.EnderecoMapper;
 import br.com.serratec.ecommerce.models.Endereco;
 import br.com.serratec.ecommerce.restClient.RestViaCep;
+import br.com.serratec.ecommerce.services.ClienteService;
 import br.com.serratec.ecommerce.services.EnderecoService;
 
 @RestController
@@ -32,16 +34,20 @@ public class EnderecoController {
 	EnderecoService enderecoService;
 	
 	@Autowired
+	ClienteService clienteService;
+	
+	@Autowired
 	EnderecoMapper enderecoMapper;
 	
 	@Autowired
 	RestViaCep restViaCep;
 	
 	@PostMapping
-	public ResponseEntity<String> createEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) throws EnderecoExistenteException {
+	public ResponseEntity<String> createEndereco(@Valid @RequestBody EnderecoDTO enderecoDTO) throws EnderecoExistenteException, ClienteInexistenteException {
 		Endereco endereco = enderecoMapper.ViaCepDtoToEndereco(restViaCep.getViaCep(enderecoDTO.getCep()));
 		endereco.setNumero(enderecoDTO.getNumero());
 		endereco.setComplemento(enderecoDTO.getComplemento());
+		endereco.setCliente(clienteService.listar(enderecoDTO.getClienteId()));
 		
 		enderecoService.inserir(endereco);
 		return new ResponseEntity<String>(HttpStatus.CREATED);
