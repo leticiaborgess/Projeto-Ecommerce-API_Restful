@@ -74,4 +74,12 @@ public class UsuarioService {
 		}
 		usuarioRepositorio.deleteById(id);
 	}
+
+	public Usuario getUsuario(String username){
+		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
+		if(optional.isEmpty()){
+			return null;
+		}
+		return optional.get();
+	}
 }
