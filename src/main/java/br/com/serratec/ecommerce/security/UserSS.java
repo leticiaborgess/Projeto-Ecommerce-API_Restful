@@ -7,6 +7,16 @@ import java.util.Collection;
 
 public class UserSS implements UserDetails {
 
+    private Integer id;
+    private String username;
+    private String senha;
+
+    public UserSS(Integer id, String username, String senha) {
+        this.id = id;
+        this.username = username;
+        this.senha = senha;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -14,12 +24,12 @@ public class UserSS implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.username;
     }
 
     @Override

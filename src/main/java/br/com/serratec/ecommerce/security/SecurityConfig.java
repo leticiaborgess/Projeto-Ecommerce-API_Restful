@@ -9,7 +9,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 import static org.springframework.http.HttpMethod.POST;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,5 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    public BCryptPasswordEncoder bCryptPasswordEncoder(){
 //        return new BCryptPasswordEncoder();
 //    }
+
     //TODO: chamar criptografia na hora de salvar senha
+    //usuario service
+    //@Autowired BCryptPasswordEncoder bCrypt;
+    //usuario.setSenha(bCrypt.encode(usuario.getSenha));
 }
