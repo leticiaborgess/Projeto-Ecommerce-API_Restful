@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
@@ -16,7 +17,9 @@ public class UsuarioService {
 	
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
-	
+
+	@Autowired
+	BCryptPasswordEncoder bCrypt;
 	
 	public void verificaExiste(String username) throws UsuarioExistenteException {
 		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
@@ -40,6 +43,7 @@ public class UsuarioService {
 
 	public void inserir(Usuario usuario) throws UsuarioExistenteException {
 		verificaExiste(usuario.getUsername());
+		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
 		usuarioRepositorio.save(usuario);
 	}
 
