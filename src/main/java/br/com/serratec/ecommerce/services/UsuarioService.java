@@ -3,7 +3,9 @@ package br.com.serratec.ecommerce.services;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.serratec.ecommerce.config.BeanConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,10 @@ public class UsuarioService {
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
 
-	@Autowired
-	BCryptPasswordEncoder bCrypt;
+	@Bean
+	public static BCryptPasswordEncoder bCryptPasswordEncoder(){
+		return new BCryptPasswordEncoder();
+	}
 	
 	public void verificaExiste(String username) throws UsuarioExistenteException {
 		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
@@ -43,7 +47,7 @@ public class UsuarioService {
 
 	public void inserir(Usuario usuario) throws UsuarioExistenteException {
 		verificaExiste(usuario.getUsername());
-		usuario.setSenha(bCrypt.encode(usuario.getSenha()));
+		usuario.setSenha(BeanConfig.bCryptPasswordEncoder().encode(usuario.getSenha()));
 		usuarioRepositorio.save(usuario);
 	}
 
