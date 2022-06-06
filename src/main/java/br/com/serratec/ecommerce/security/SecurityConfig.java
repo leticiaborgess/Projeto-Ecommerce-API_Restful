@@ -31,13 +31,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     JWTUtil jwtUtil;
 
     private static String[]AUTH_WHITELIST = {
-        //TODO: endpoints liberados
+        "/cliente", "/login"
     };
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/login", "/cliente").permitAll().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers(POST, "/cliente", "/login").permitAll()
+                .anyRequest().authenticated();
         http.addFilterBefore(new JWTAuthenticationFilter(authenticationManager(), jwtUtil),
                 UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
