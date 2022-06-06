@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -27,15 +28,15 @@ public class JWTUtil {
                 .compact();
     }
 
-    public Authentication getAuthentication (HttpServletRequest request){
+    public static Authentication getAuthentication (HttpServletRequest request){
         String token = request.getHeader("Authorization");
         if(token != null){
-            String user = Jwts.parser().setSigningKey(secret.getBytes())
+            String user = Jwts.parser().setSigningKey("serratec".getBytes())
                     .parseClaimsJwt(token.replace("Bearer", ""))
                     .getBody()
                     .getSubject();
             if(user != null){
-                return new UsernamePasswordAuthenticationToken(user, null);
+                return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
             }
         }
         return null;

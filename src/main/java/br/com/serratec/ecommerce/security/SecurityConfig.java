@@ -1,6 +1,7 @@
 package br.com.serratec.ecommerce.security;
 
 import br.com.serratec.ecommerce.token.JWTAuthenticationFilter;
+import br.com.serratec.ecommerce.token.JWTAuthorizationFilter;
 import br.com.serratec.ecommerce.token.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/login", "/cliente").permitAll().anyRequest().authenticated();
         http.addFilterBefore(new JWTAuthenticationFilter(authenticationManager(), jwtUtil),
                 UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
