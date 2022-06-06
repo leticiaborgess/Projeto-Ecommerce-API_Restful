@@ -3,6 +3,7 @@ package br.com.serratec.ecommerce.models;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pedido {
@@ -27,20 +29,21 @@ public class Pedido {
 	private Double valorTotal;
 	
 	@NotNull
-	@Past
-	private LocalDate data;
+	private LocalDate dataPedido;
 	
 	@NotNull
 	@Future
 	private LocalDate dataEntrega;
 	
 	@NotNull
-	private String status;
+	private boolean status;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<ProdutoPedido> produtosPedidos;
 	
 	
@@ -48,14 +51,14 @@ public class Pedido {
 		super();
 	}
 
-	public Pedido(Integer id, @NotNull String numero, @NotNull Double valorTotal, @NotNull LocalDate data,
-			@NotNull LocalDate dataEntrega, @NotNull String status, Cliente cliente,
+	public Pedido(Integer id, @NotNull String numero, @NotNull Double valorTotal, @NotNull LocalDate dataPedido,
+			@NotNull LocalDate dataEntrega, @NotNull boolean status, Cliente cliente,
 			List<ProdutoPedido> produtosPedidos) {
 		super();
 		this.id = id;
 		this.numero = numero;
 		this.valorTotal = valorTotal;
-		this.data = data;
+		this.dataPedido = dataPedido;
 		this.dataEntrega = dataEntrega;
 		this.status = status;
 		this.cliente = cliente;
@@ -86,12 +89,12 @@ public class Pedido {
 		this.valorTotal = valorTotal;
 	}
 
-	public LocalDate getData() {
-		return data;
+	public LocalDate getDataPedido() {
+		return dataPedido;
 	}
 
-	public void setData(LocalDate data) {
-		this.data = data;
+	public void setDataPedido(LocalDate dataPedido) {
+		this.dataPedido = dataPedido;
 	}
 
 	public LocalDate getDataEntrega() {
@@ -102,11 +105,11 @@ public class Pedido {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
