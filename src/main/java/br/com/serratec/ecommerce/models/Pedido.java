@@ -3,6 +3,7 @@ package br.com.serratec.ecommerce.models;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pedido {
@@ -27,7 +29,6 @@ public class Pedido {
 	private Double valorTotal;
 	
 	@NotNull
-	@Past
 	private LocalDate dataPedido;
 	
 	@NotNull
@@ -38,9 +39,11 @@ public class Pedido {
 	private boolean status;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Cliente cliente;
 	
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<ProdutoPedido> produtosPedidos;
 	
 	

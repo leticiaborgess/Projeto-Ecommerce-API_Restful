@@ -15,6 +15,7 @@ import br.com.serratec.ecommerce.repositories.PedidoRepositorio;
 public class PedidoService {
 	@Autowired
 	PedidoRepositorio pedidoRepositorio;
+	
 
 	public void verificaExiste(String numero) throws PedidoExistenteException {
 		Optional<Pedido> optional = pedidoRepositorio.findByNumero(numero);
@@ -39,7 +40,6 @@ public class PedidoService {
 	public void inserir(Pedido pedido) throws PedidoExistenteException {
 		verificaExiste(pedido.getNumero());
 		pedidoRepositorio.save(pedido);
-		// TODO com imagem
 	}
 
 	public Pedido atualizar(Pedido pedido, Integer id)
