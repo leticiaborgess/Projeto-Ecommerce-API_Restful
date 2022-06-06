@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
 import br.com.serratec.ecommerce.models.Produto;
@@ -15,6 +16,9 @@ import br.com.serratec.ecommerce.repositories.ProdutoRepositorio;
 public class ProdutoService {
 	@Autowired
 	ProdutoRepositorio produtoRepositorio;
+	
+	@Autowired
+	ImagemService imagemService;
 
 	public void verificaExiste(String nome) throws ProdutoExistenteException {
 		Optional<Produto> optional = produtoRepositorio.findByNome(nome);
@@ -36,10 +40,10 @@ public class ProdutoService {
 		return optional.get();
 	}
 
-	public void inserir(Produto produto) throws ProdutoExistenteException {
+	public void inserir(Produto produto) throws ProdutoExistenteException, ImagemExistenteException {
 		verificaExiste(produto.getNome());
+		imagemService.inserir(produto.getImagem());
 		produtoRepositorio.save(produto);
-		// TODO com imagem
 	}
 
 	public Produto atualizar(Produto produto, Integer id)

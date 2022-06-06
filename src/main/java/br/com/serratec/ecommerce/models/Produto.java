@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -34,7 +35,8 @@ public class Produto {
 	@Past
 	private LocalDate dataCadastro;
 	
-	//TODO colocar imagem
+	@OneToOne
+	private Imagem imagem;
 	
 	@OneToMany(mappedBy = "produto")
 	private List<ProdutoPedido> produtosPedidos;
@@ -50,9 +52,10 @@ public class Produto {
 		super();
 	}
 
+
 	public Produto(Integer id, @NotNull String nome, String descricao, @NotNull Double preco,
-			@NotNull Integer qntEstoque, @NotNull LocalDate dataCadastro, List<ProdutoPedido> produtosPedidos,
-			Funcionario funcionario, Categoria categoria) {
+			@NotNull Integer qntEstoque, @NotNull @Past LocalDate dataCadastro, Imagem imagem,
+			List<ProdutoPedido> produtosPedidos, Funcionario funcionario, Categoria categoria) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -60,78 +63,107 @@ public class Produto {
 		this.preco = preco;
 		this.qntEstoque = qntEstoque;
 		this.dataCadastro = dataCadastro;
+		this.imagem = imagem;
 		this.produtosPedidos = produtosPedidos;
 		this.funcionario = funcionario;
 		this.categoria = categoria;
 	}
 
+
 	public Integer getId() {
 		return id;
 	}
+
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
+
 	public String getNome() {
 		return nome;
 	}
+
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
+
 	public String getDescricao() {
 		return descricao;
 	}
+
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
 
+
 	public Double getPreco() {
 		return preco;
 	}
+
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 
+
 	public Integer getQntEstoque() {
 		return qntEstoque;
 	}
+
 
 	public void setQntEstoque(Integer qntEstoque) {
 		this.qntEstoque = qntEstoque;
 	}
 
+
 	public LocalDate getDataCadastro() {
 		return dataCadastro;
 	}
+
 
 	public void setDataCadastro(LocalDate dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
+
+	public Imagem getImagem() {
+		return imagem;
+	}
+
+
+	public void setImagem(Imagem imagem) {
+		this.imagem = imagem;
+	}
+
+
 	public List<ProdutoPedido> getProdutosPedidos() {
 		return produtosPedidos;
 	}
+
 
 	public void setProdutosPedidos(List<ProdutoPedido> produtosPedidos) {
 		this.produtosPedidos = produtosPedidos;
 	}
 
+
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
+
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
 
+
 	public Categoria getCategoria() {
 		return categoria;
 	}
+
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
