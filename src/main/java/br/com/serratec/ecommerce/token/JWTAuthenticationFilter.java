@@ -33,11 +33,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throws AuthenticationException {
         try{
             Usuario creds = new ObjectMapper().readValue(request.getInputStream(),Usuario.class);
+            System.out.println(creds.getEmail()+ "   "+creds.getSenha());
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),creds.getSenha(),new ArrayList<>());
             Authentication auth = authenticationManager.authenticate(authToken);
             return auth;
         }
         catch(IOException e){
+            e.printStackTrace();
             throw new RuntimeException();
         }
     }
