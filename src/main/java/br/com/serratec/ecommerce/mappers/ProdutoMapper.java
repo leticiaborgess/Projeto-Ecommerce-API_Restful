@@ -33,8 +33,13 @@ public class ProdutoMapper {
 		produto.setPreco(produtoDTO.getPreco());
 		produto.setQntEstoque(produtoDTO.getQntEstoque());
 		produto.setDataCadastro(produtoDTO.getDataCadastro());
-		produto.setCategoria(categoriaService.listar(produtoDTO.getCategoriaId()));
-		produto.setFuncionario(funcionarioService.listar(produtoDTO.getFuncionarioId()));
+		
+		if(produtoDTO.getCategoriaId() != null) {
+			produto.setCategoria(categoriaService.listar(produtoDTO.getCategoriaId()));
+		}
+		if(produtoDTO.getFuncionarioId() != null) {
+			produto.setFuncionario(funcionarioService.listar(produtoDTO.getFuncionarioId()));			
+		}
 		
 		return produto;
 	}

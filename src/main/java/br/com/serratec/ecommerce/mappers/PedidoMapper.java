@@ -31,24 +31,30 @@ public class PedidoMapper {
 		List<ProdutoPedido> produtosPedidos = new ArrayList<>();
 		Double valorTotal = 0.0;
 		
-		for(List<Integer> lista : pedidoDTO.getPedidos()) {
-			ProdutoPedido produtoPedido = new ProdutoPedido();
-			Produto produto = produtoService.listar(lista.get(0));
-			produtoPedido.setPedido(pedido);
-			produtoPedido.setProduto(produto);
-			produtoPedido.setQuantidade(lista.get(1));
-			produtoPedido.setPreco(produto.getPreco() * lista.get(1));
-			
-			valorTotal += produtoPedido.getPreco();
-			produtosPedidos.add(produtoPedido);
+		if(pedidoDTO.getPedidos() != null) {
+			for(List<Integer> lista : pedidoDTO.getPedidos()) {
+				ProdutoPedido produtoPedido = new ProdutoPedido();
+				Produto produto = produtoService.listar(lista.get(0));
+				produtoPedido.setPedido(pedido);
+				produtoPedido.setProduto(produto);
+				produtoPedido.setQuantidade(lista.get(1));
+				produtoPedido.setPreco(produto.getPreco() * lista.get(1));
+				
+				valorTotal += produtoPedido.getPreco();
+				produtosPedidos.add(produtoPedido);
+			}
 		}
 		
 		pedido.setNumero(pedidoDTO.getNumero());
 		pedido.setDataPedido(LocalDate.now());
 		pedido.setDataEntrega(pedidoDTO.getDataEntrega());
-		pedido.setStatus(false);
-		pedido.setCliente(clienteService.listar(pedidoDTO.getClienteId()));
+		
+		if(pedidoDTO.getClienteId() != null) {
+			pedido.setCliente(clienteService.listar(pedidoDTO.getClienteId()));
+		}
+		
 		pedido.setProdutosPedidos(produtosPedidos);
+		pedido.setStatus(pedidoDTO.getStatus());
 		pedido.setValorTotal(valorTotal);
 		
 		return pedido;

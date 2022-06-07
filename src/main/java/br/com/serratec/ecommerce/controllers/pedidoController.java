@@ -22,7 +22,9 @@ import br.com.serratec.ecommerce.dtos.PedidoOutDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoExistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoInexistenteException;
+import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
+import br.com.serratec.ecommerce.exceptions.QntEstoqueInsuficienteException;
 import br.com.serratec.ecommerce.mappers.PedidoMapper;
 import br.com.serratec.ecommerce.models.Pedido;
 import br.com.serratec.ecommerce.services.PedidoService;
@@ -38,7 +40,7 @@ public class pedidoController {
 	PedidoMapper pedidoMapper;
 	
 	@PostMapping
-	public ResponseEntity<String> createPedido(@Valid @RequestBody PedidoDTO pedidoDTO) throws PedidoExistenteException, ClienteInexistenteException, ProdutoInexistenteException {
+	public ResponseEntity<String> createPedido(@Valid @RequestBody PedidoDTO pedidoDTO) throws PedidoExistenteException, ClienteInexistenteException, ProdutoInexistenteException, QntEstoqueInsuficienteException, ProdutoExistenteException {
 		pedidoService.inserir(pedidoMapper.pedidoDtoToPedido(pedidoDTO));
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.ConstraintViolationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -26,6 +28,7 @@ import br.com.serratec.ecommerce.exceptions.PedidoExistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
+import br.com.serratec.ecommerce.exceptions.QntEstoqueInsuficienteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioInexistenteException;
 
@@ -128,6 +131,12 @@ public class ExceptionsController {
 		return ResponseEntity.notFound().header("error-msg", msg).build();
 	}
 	
+	@ExceptionHandler(QntEstoqueInsuficienteException.class)
+	public ResponseEntity<String> handleQntEstoqueInsuficienteInexistente() {
+		String msg = "Quantidade em estoque insuficiente";
+		return ResponseEntity.badRequest().header("error-msg", msg).build();
+	}
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String, String>> handleValidacao(MethodArgumentNotValidException ex) {
 		Map<String, String> errosMap = new HashMap<>();
@@ -140,5 +149,11 @@ public class ExceptionsController {
 		}
 		
 		return new ResponseEntity<Map<String, String>>(errosMap, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(ConstraintViolationException.class)
+	public ResponseEntity<String> handleConstraintViolationInexistente() {
+		String msg = "Argumento inválido";
+		return ResponseEntity.badRequest().header("error-msg", msg).build();
 	}
 }
