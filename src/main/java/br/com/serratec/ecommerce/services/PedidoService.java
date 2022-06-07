@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
+import br.com.serratec.ecommerce.exceptions.ImagemInexistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoExistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
@@ -47,7 +49,7 @@ public class PedidoService {
 	}
 
 	@Transactional
-	public void inserir(Pedido pedido) throws PedidoExistenteException, ProdutoInexistenteException, QntEstoqueInsuficienteException, ProdutoExistenteException {
+	public void inserir(Pedido pedido) throws PedidoExistenteException, ProdutoInexistenteException, QntEstoqueInsuficienteException, ProdutoExistenteException, ImagemInexistenteException, ImagemExistenteException {
 		verificaExiste(pedido.getNumero());
 		
 		for(ProdutoPedido produtoPedido : pedido.getProdutosPedidos()) {
