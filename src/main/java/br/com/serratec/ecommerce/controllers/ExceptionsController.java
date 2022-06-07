@@ -20,6 +20,10 @@ import br.com.serratec.ecommerce.exceptions.EnderecoExistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoInexistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
+import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
+import br.com.serratec.ecommerce.exceptions.ImagemInexistenteException;
+import br.com.serratec.ecommerce.exceptions.PedidoExistenteException;
+import br.com.serratec.ecommerce.exceptions.PedidoInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
@@ -97,6 +101,30 @@ public class ExceptionsController {
 	@ExceptionHandler(UsuarioInexistenteException.class)
 	public ResponseEntity<String> handleUsuarioInexistente() {
 		String msg = "Usuario não existe";
+		return ResponseEntity.notFound().header("error-msg", msg).build();
+	}
+	
+	@ExceptionHandler(PedidoExistenteException.class)
+	public ResponseEntity<String> handlePedidoExistente() {
+		String msg = "Pedido já existe";
+		return ResponseEntity.badRequest().header("error-msg", msg).build();
+	}
+	
+	@ExceptionHandler(PedidoInexistenteException.class)
+	public ResponseEntity<String> handlePedidoInexistente() {
+		String msg = "Pedido não existe";
+		return ResponseEntity.notFound().header("error-msg", msg).build();
+	}
+	
+	@ExceptionHandler(ImagemExistenteException.class)
+	public ResponseEntity<String> handleImagemExistente() {
+		String msg = "Imagem já existe";
+		return ResponseEntity.badRequest().header("error-msg", msg).build();
+	}
+	
+	@ExceptionHandler(ImagemInexistenteException.class)
+	public ResponseEntity<String> handleImagemInexistente() {
+		String msg = "Imagem não existe";
 		return ResponseEntity.notFound().header("error-msg", msg).build();
 	}
 	

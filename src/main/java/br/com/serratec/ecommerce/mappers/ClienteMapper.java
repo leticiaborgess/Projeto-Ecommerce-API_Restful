@@ -3,6 +3,7 @@ package br.com.serratec.ecommerce.mappers;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.ClienteDTO;
+import br.com.serratec.ecommerce.dtos.ClienteOutDTO;
 import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.models.Usuario;
 
@@ -24,5 +25,16 @@ public class ClienteMapper {
 		cliente.setUsuario(usuario);
 		
 		return cliente;
+	}
+	
+	public ClienteOutDTO clienteToClienteOutDto(Cliente cliente) {
+		ClienteOutDTO clienteDTO = new ClienteOutDTO();
+		
+		clienteDTO.setId(cliente.getId());
+		clienteDTO.setCpf(cliente.getCpf());
+		clienteDTO.setEmail(cliente.getUsuario().getEmail());
+		clienteDTO.setUsername(cliente.getUsuario().getUsername());
+		
+		return clienteDTO;
 	}
 }

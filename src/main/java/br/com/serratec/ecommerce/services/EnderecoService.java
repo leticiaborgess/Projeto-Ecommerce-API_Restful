@@ -31,7 +31,7 @@ public class EnderecoService {
 	}
 
 	public void inserir(Endereco endereco) throws EnderecoExistenteException {
-		enderecoRepositorio.save(endereco);
+		enderecoRepositorio.save(endereco);			
 	}
 
 	public Endereco atualizar(Endereco endereco, Integer id) throws EnderecoInexistenteException, EnderecoExistenteException  {

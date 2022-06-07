@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.ProdutoDTO;
+import br.com.serratec.ecommerce.dtos.ProdutoOutDTO;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.models.Produto;
@@ -31,5 +32,17 @@ public class ProdutoMapper {
 		produto.setFuncionario(funcionarioService.listar(produtoDTO.getFuncionarioId()));
 		
 		return produto;
+	}
+	
+	public ProdutoOutDTO produtoToProdutoOutDto(Produto produto) {
+		ProdutoOutDTO produtoDTO = new ProdutoOutDTO();
+		
+		produtoDTO.setId(produto.getId());
+		produtoDTO.setNome(produto.getNome());
+		produtoDTO.setPreco(produto.getPreco());
+		produtoDTO.setQntEstoque(produto.getQntEstoque());
+		produtoDTO.setCategoriaNome(produto.getCategoria().getNome());
+		
+		return produtoDTO;
 	}
 }

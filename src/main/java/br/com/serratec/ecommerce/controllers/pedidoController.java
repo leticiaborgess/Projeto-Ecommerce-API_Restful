@@ -1,5 +1,6 @@
 package br.com.serratec.ecommerce.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.PedidoDTO;
+import br.com.serratec.ecommerce.dtos.PedidoOutDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoExistenteException;
 import br.com.serratec.ecommerce.exceptions.PedidoInexistenteException;
@@ -42,8 +44,14 @@ public class pedidoController {
 	}
 	
 	@GetMapping
-	public List<Pedido> readPedidos() {
-		return pedidoService.listarTudo();
+	public List<PedidoOutDTO> readPedidos() {
+		List<PedidoOutDTO> listaDTO = new ArrayList<>();
+		
+		for(Pedido pedido : pedidoService.listarTudo()) {
+			listaDTO.add(pedidoMapper.pedidoToPedidoOutDto(pedido));
+		}
+		
+		return listaDTO;
 	}
 	
 	@GetMapping("/{id}")

@@ -1,5 +1,6 @@
 package br.com.serratec.ecommerce.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.EnderecoDTO;
+import br.com.serratec.ecommerce.dtos.EnderecoOutDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoExistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoInexistenteException;
@@ -54,8 +56,14 @@ public class EnderecoController {
 	}
 	
 	@GetMapping
-	public List<Endereco> readEnderecos() {
-		return enderecoService.listarTudo();
+	public List<EnderecoOutDTO> readEnderecos() {
+		List<EnderecoOutDTO> listaDTO = new ArrayList<>();
+		
+		for(Endereco endereco : enderecoService.listarTudo()) {
+			listaDTO.add(enderecoMapper.enderecoToEnderecoOutDto(endereco));
+		}
+		
+		return listaDTO;
 	}
 	
 	@GetMapping("/{id}")

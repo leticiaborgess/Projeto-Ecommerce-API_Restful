@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.PedidoDTO;
+import br.com.serratec.ecommerce.dtos.PedidoOutDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
 import br.com.serratec.ecommerce.models.Pedido;
@@ -51,5 +52,15 @@ public class PedidoMapper {
 		pedido.setValorTotal(valorTotal);
 		
 		return pedido;
+	}
+	
+	public PedidoOutDTO pedidoToPedidoOutDto(Pedido pedido) {
+		PedidoOutDTO pedidoDTO = new PedidoOutDTO();
+		
+		pedidoDTO.setId(pedido.getId());
+		pedidoDTO.setNumero(pedido.getNumero());
+		pedidoDTO.setValorTotal(pedido.getValorTotal());
+		
+		return pedidoDTO;
 	}
 }

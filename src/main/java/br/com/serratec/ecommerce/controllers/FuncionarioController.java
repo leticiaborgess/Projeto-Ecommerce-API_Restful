@@ -1,5 +1,6 @@
 package br.com.serratec.ecommerce.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
+import br.com.serratec.ecommerce.dtos.FuncionarioOutDTO;
 import br.com.serratec.ecommerce.exceptions.FuncionarioExistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
@@ -42,8 +44,14 @@ public class FuncionarioController {
 	}
 	
 	@GetMapping
-	public List<Funcionario> readFuncionarios() {
-		return funcionarioService.listarTudo();
+	public List<FuncionarioOutDTO> readFuncionarios() {
+		List<FuncionarioOutDTO> listaDTO = new ArrayList<>();
+		
+		for(Funcionario funcionario : funcionarioService.listarTudo()) {
+			listaDTO.add(funcionarioMapper.funcionarioToFuncionarioOutDto(funcionario));
+		}
+		
+		return listaDTO;
 	}
 	
 	@GetMapping("/{id}")

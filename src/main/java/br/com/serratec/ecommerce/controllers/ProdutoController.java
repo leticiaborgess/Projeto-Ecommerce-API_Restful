@@ -1,6 +1,7 @@
 package br.com.serratec.ecommerce.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.serratec.ecommerce.dtos.ProdutoDTO;
+import br.com.serratec.ecommerce.dtos.ProdutoOutDTO;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
@@ -53,8 +55,14 @@ public class ProdutoController {
 	}
 	
 	@GetMapping
-	public List<Produto> readProdutos() {
-		return produtoService.listarTudo();
+	public List<ProdutoOutDTO> readProdutos() {
+		List<ProdutoOutDTO> listaDTO = new ArrayList<>();
+		
+		for(Produto produto : produtoService.listarTudo()) {
+			listaDTO.add(produtoMapper.produtoToProdutoOutDto(produto));
+		}
+		
+		return listaDTO;
 	}
 	
 	@GetMapping("/{id}")

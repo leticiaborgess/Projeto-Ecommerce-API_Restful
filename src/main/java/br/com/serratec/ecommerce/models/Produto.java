@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Produto {
 	
@@ -39,6 +41,7 @@ public class Produto {
 	private Imagem imagem;
 	
 	@OneToMany(mappedBy = "produto")
+	@JsonIgnore
 	private List<ProdutoPedido> produtosPedidos;
 	
 	@ManyToOne
