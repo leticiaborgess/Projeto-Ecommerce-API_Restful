@@ -1,5 +1,6 @@
 package br.com.serratec.ecommerce.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.CategoriaDTO;
+import br.com.serratec.ecommerce.dtos.CategoriaOutDTO;
 import br.com.serratec.ecommerce.exceptions.CategoriaExistenteException;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
 import br.com.serratec.ecommerce.mappers.CategoriaMapper;
@@ -40,8 +42,14 @@ public class CategoriaController {
 	}
 	
 	@GetMapping
-	public List<Categoria> readCategorias() {
-		return categoriaService.listarTudo();
+	public List<CategoriaOutDTO> readCategorias() {
+		List<CategoriaOutDTO> listaDTO = new ArrayList<>();
+		
+		for(Categoria categoria : categoriaService.listarTudo()) {
+			listaDTO.add(categoriaMapper.categoriaToCategoriaOutDto(categoria));
+		}
+		
+		return listaDTO;
 	}
 	
 	@GetMapping("/{id}")

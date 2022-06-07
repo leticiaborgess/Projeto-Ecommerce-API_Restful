@@ -1,5 +1,6 @@
 package br.com.serratec.ecommerce.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.ecommerce.dtos.ClienteDTO;
+import br.com.serratec.ecommerce.dtos.ClienteOutDTO;
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
@@ -43,8 +45,14 @@ public class ClienteController {
 	}
 	
 	@GetMapping
-	public List<Cliente> readClientes() {
-		return clienteService.listarTudo();
+	public List<ClienteOutDTO> readClientes() {
+		List<ClienteOutDTO> listaDTO = new ArrayList<>();
+		
+		for(Cliente cliente : clienteService.listarTudo()) {
+			listaDTO.add(clienteMapper.clienteToClienteOutDto(cliente));
+		}
+		
+		return listaDTO;
 	}
 	
 	@GetMapping("/{id}")

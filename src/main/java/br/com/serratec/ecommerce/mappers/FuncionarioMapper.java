@@ -3,6 +3,7 @@ package br.com.serratec.ecommerce.mappers;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
+import br.com.serratec.ecommerce.dtos.FuncionarioOutDTO;
 import br.com.serratec.ecommerce.models.Funcionario;
 import br.com.serratec.ecommerce.models.Usuario;
 
@@ -24,5 +25,16 @@ public class FuncionarioMapper {
 		funcionario.setUsuario(usuario);
 		
 		return funcionario;
+	}
+	
+	public FuncionarioOutDTO funcionarioToFuncionarioOutDto(Funcionario funcionario) {
+		FuncionarioOutDTO funcionarioDTO = new FuncionarioOutDTO();
+		
+		funcionarioDTO.setId(funcionario.getId());
+		funcionarioDTO.setCpf(funcionario.getCpf());
+		funcionarioDTO.setEmail(funcionario.getUsuario().getEmail());
+		funcionarioDTO.setUsername(funcionario.getUsuario().getUsername());
+		
+		return funcionarioDTO;
 	}
 }
