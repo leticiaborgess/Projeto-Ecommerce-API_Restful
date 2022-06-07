@@ -6,6 +6,7 @@ public class ProdutoOutDTO {
 	private Double preco;
 	private Integer qntEstoque;
 	private String categoriaNome;
+	private String imagemUrl;
 	
 	
 	public ProdutoOutDTO() {
@@ -13,13 +14,15 @@ public class ProdutoOutDTO {
 	}
 
 
-	public ProdutoOutDTO(Integer id, String nome, Double preco, Integer qntEstoque, String categoriaNome) {
+	public ProdutoOutDTO(Integer id, String nome, Double preco, Integer qntEstoque, String categoriaNome,
+			String imagemUrl) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
 		this.qntEstoque = qntEstoque;
 		this.categoriaNome = categoriaNome;
+		this.imagemUrl = imagemUrl;
 	}
 
 
@@ -70,5 +73,15 @@ public class ProdutoOutDTO {
 
 	public void setCategoriaNome(String categoriaNome) {
 		this.categoriaNome = categoriaNome;
+	}
+
+
+	public String getImagemUrl() {
+		return imagemUrl;
+	}
+
+
+	public void setImagemUrl(String imagemUrl) {
+		this.imagemUrl = imagemUrl;
 	}
 }

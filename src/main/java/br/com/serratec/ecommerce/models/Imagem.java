@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Imagem {
 	
@@ -22,6 +24,7 @@ public class Imagem {
 	private byte[] data;
 	 
 	@OneToOne(mappedBy = "imagem")
+	@JsonIgnore
 	private Produto produto;
 	
 	

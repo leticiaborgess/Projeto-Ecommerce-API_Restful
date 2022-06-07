@@ -1,10 +1,12 @@
 package br.com.serratec.ecommerce.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
 import br.com.serratec.ecommerce.exceptions.ImagemInexistenteException;
@@ -64,5 +66,10 @@ public class ImagemService {
 
 		}
 		imagemRepositorio.deleteById(id);
+	}
+	
+	public String geraUrl(Integer id) {
+		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/produto/{id}/image").buildAndExpand(id).toUri();
+		return uri.toString();
 	}
 }

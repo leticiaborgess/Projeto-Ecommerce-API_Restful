@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,11 +27,14 @@ import br.com.serratec.ecommerce.dtos.ProdutoOutDTO;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
+import br.com.serratec.ecommerce.exceptions.ImagemInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
 import br.com.serratec.ecommerce.mappers.ImagemMapper;
 import br.com.serratec.ecommerce.mappers.ProdutoMapper;
+import br.com.serratec.ecommerce.models.Imagem;
 import br.com.serratec.ecommerce.models.Produto;
+import br.com.serratec.ecommerce.services.ImagemService;
 import br.com.serratec.ecommerce.services.ProdutoService;
 
 @RestController
@@ -42,6 +46,9 @@ public class ProdutoController {
 	
 	@Autowired
 	ProdutoMapper produtoMapper;
+	
+	@Autowired
+	ImagemService imagemService;
 	
 	@Autowired
 	ImagemMapper imagemMapper;
@@ -68,6 +75,16 @@ public class ProdutoController {
 	@GetMapping("/{id}")
 	public Produto readProduto(@PathVariable Integer id) throws ProdutoInexistenteException {
 		return produtoService.listar(id);
+	}
+	
+	@GetMapping("/{id}/image")
+	public ResponseEntity<byte[]> readImage(@PathVariable Integer id) throws ImagemInexistenteException {
+		 Imagem imagem = imagemService.listar(id);
+		 HttpHeaders headers = new HttpHeaders(); 
+		 headers.add("content-type",  imagem.getMimeType());
+		 headers.add("content-length",  String.valueOf(imagem.getData().length)); 
+		 
+		 return new ResponseEntity<>(imagem.getData(), headers, HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
