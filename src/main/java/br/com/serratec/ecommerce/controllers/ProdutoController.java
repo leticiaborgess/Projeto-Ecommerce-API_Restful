@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.serratec.ecommerce.dtos.ProdutoDTO;
 import br.com.serratec.ecommerce.dtos.ProdutoOutDTO;
+import br.com.serratec.ecommerce.dtos.ProdutoOutDetDTO;
 import br.com.serratec.ecommerce.exceptions.CategoriaInexistenteException;
 import br.com.serratec.ecommerce.exceptions.FuncionarioInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
@@ -73,8 +74,8 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/{id}")
-	public Produto readProduto(@PathVariable Integer id) throws ProdutoInexistenteException {
-		return produtoService.listar(id);
+	public ProdutoOutDetDTO readProduto(@PathVariable Integer id) throws ProdutoInexistenteException {
+		return produtoMapper.produtoToProdutoOutDetDto(produtoService.listar(id));
 	}
 	
 	@GetMapping("/{id}/image")
