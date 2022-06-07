@@ -1,6 +1,7 @@
 package br.com.serratec.ecommerce.token;
 
 import br.com.serratec.ecommerce.models.Usuario;
+import br.com.serratec.ecommerce.security.UserSS;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +34,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throws AuthenticationException {
         try{
             Usuario creds = new ObjectMapper().readValue(request.getInputStream(),Usuario.class);
-            System.out.println(creds.getEmail()+ "   "+creds.getSenha());
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(creds.getEmail(),creds.getSenha(),new ArrayList<>());
             Authentication auth = authenticationManager.authenticate(authToken);
             return auth;
@@ -47,6 +47,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
+        String username=((UserSS) authResult.getPrincipal()).getUsername();
+        String token=jwtUtil.generateToken(username);
+        response.addHeader("Token" , token);
     }
 }
