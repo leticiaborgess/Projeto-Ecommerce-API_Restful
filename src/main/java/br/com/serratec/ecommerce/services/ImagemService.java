@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
@@ -18,13 +19,7 @@ public class ImagemService {
 	
 	@Autowired
 	ImagemRepositorio imagemRepositorio;
-
-	public void verificaExiste(String nome) throws ImagemExistenteException {
-		Optional<Imagem> optional = imagemRepositorio.findByNome(nome);
-		if (optional.isPresent()) {
-			throw new ImagemExistenteException();
-		}
-	}
+	
 
 	public List<Imagem> listarTudo() {
 		return imagemRepositorio.findAll();
@@ -39,8 +34,8 @@ public class ImagemService {
 		return optional.get();
 	}
 
+	@Transactional
 	public void inserir(Imagem imagem) throws ImagemExistenteException {
-		verificaExiste(imagem.getNome());
 		imagemRepositorio.save(imagem);
 	}
 
@@ -52,8 +47,13 @@ public class ImagemService {
 		}
 		Imagem oldImagem = optional.get();
 		if (imagem.getNome() != null && !imagem.getNome().equals("")) {
-			verificaExiste(imagem.getNome());
 			oldImagem.setNome(imagem.getNome());
+		}
+		if (imagem.getMimeType() != null) {
+			oldImagem.setMimeType(imagem.getMimeType());
+		}
+		if (imagem.getData() != null) {
+			oldImagem.setData(imagem.getData());
 		}
 		
 		return imagemRepositorio.save(oldImagem);

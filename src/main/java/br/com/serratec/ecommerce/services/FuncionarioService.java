@@ -63,8 +63,10 @@ public class FuncionarioService {
         if (funcionario.getDataNascimento() != null) {
             oldFuncionario.setDataNascimento(funcionario.getDataNascimento());
         }
+        if (funcionario.getUsuario() != null) {
+        	usuarioService.atualizar(funcionario.getUsuario(), oldFuncionario.getUsuario().getId());
+        }
         
-        usuarioService.atualizar(funcionario.getUsuario(), funcionario.getUsuario().getId());
         return funcionarioRepositorio.save(oldFuncionario);
 	}
 

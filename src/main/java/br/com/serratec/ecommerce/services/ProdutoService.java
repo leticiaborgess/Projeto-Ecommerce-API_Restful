@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.exceptions.ImagemExistenteException;
+import br.com.serratec.ecommerce.exceptions.ImagemInexistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoExistenteException;
 import br.com.serratec.ecommerce.exceptions.ProdutoInexistenteException;
 import br.com.serratec.ecommerce.models.Produto;
@@ -47,7 +48,7 @@ public class ProdutoService {
 	}
 
 	public Produto atualizar(Produto produto, Integer id)
-			throws ProdutoInexistenteException, ProdutoExistenteException {
+			throws ProdutoInexistenteException, ProdutoExistenteException, ImagemInexistenteException, ImagemExistenteException {
 		Optional<Produto> optional = produtoRepositorio.findById(id);
 		if (optional.isEmpty()) {
 			throw new ProdutoInexistenteException();
@@ -75,6 +76,9 @@ public class ProdutoService {
 		}
 		if (produto.getCategoria() != null) {
 			oldProduto.setCategoria(produto.getCategoria());
+		}
+		if (produto.getImagem() != null) {
+			imagemService.atualizar(produto.getImagem(), oldProduto.getImagem().getId());
 		}
 		return produtoRepositorio.save(oldProduto);
 	}

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -89,8 +88,18 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/{id}")
-	public void updateProduto(@PathVariable Integer id, @Valid @RequestBody ProdutoDTO atualizacaoDTO) throws ProdutoInexistenteException, ProdutoExistenteException, CategoriaInexistenteException, FuncionarioInexistenteException {
-		produtoService.atualizar(produtoMapper.produtoDtoToProduto(atualizacaoDTO), id);
+	public void updateProduto(@PathVariable Integer id, @Valid @RequestPart(required = false) ProdutoDTO atualizacaoDTO, @RequestParam(required = false) MultipartFile file) throws ProdutoInexistenteException, ProdutoExistenteException, CategoriaInexistenteException, FuncionarioInexistenteException, IOException, ImagemInexistenteException, ImagemExistenteException {
+		Produto produto = new Produto();
+		
+		if(atualizacaoDTO != null) {
+			produto = produtoMapper.produtoDtoToProduto(atualizacaoDTO);
+		}
+		
+		if(file != null) {
+			produto.setImagem(imagemMapper.multipartFileToImagem(file));
+		}
+		
+		produtoService.atualizar(produto, id);
 	}
 	
 	@DeleteMapping("/{id}")

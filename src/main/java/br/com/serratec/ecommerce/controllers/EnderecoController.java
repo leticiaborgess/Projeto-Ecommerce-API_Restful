@@ -73,7 +73,12 @@ public class EnderecoController {
 	
 	@PutMapping("/{id}")
 	public void updateEndereco(@PathVariable Integer id, @Valid @RequestBody EnderecoDTO atualizacaoDTO) throws EnderecoInexistenteException, EnderecoExistenteException {
-		Endereco atualizacao = enderecoMapper.ViaCepDtoToEndereco(restViaCep.getViaCep(atualizacaoDTO.getCep()));
+		Endereco atualizacao = new Endereco();
+		
+		if(atualizacaoDTO.getCep() != null) {
+			atualizacao = enderecoMapper.ViaCepDtoToEndereco(restViaCep.getViaCep(atualizacaoDTO.getCep()));
+		}
+		
 		atualizacao.setNumero(atualizacaoDTO.getNumero());
 		atualizacao.setComplemento(atualizacaoDTO.getComplemento());
 		
