@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
@@ -32,7 +33,16 @@ public class UsuarioService {
 	public Usuario listar(Integer id) throws UsuarioInexistenteException {
 		Optional<Usuario> optional = usuarioRepositorio.findById(id);
 		if (optional.isEmpty()) {
-			throw new UsuarioInexistenteException(); // TODO tratar
+			throw new UsuarioInexistenteException();
+
+		}
+		return optional.get();
+	}
+	
+	public Usuario getByUsername(String username) {
+		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
+		if (optional.isEmpty()) {
+			throw new UsernameNotFoundException("Usuario não encontrado");
 
 		}
 		return optional.get();
