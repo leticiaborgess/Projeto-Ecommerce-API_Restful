@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,17 +57,28 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/{id}")
-	public Cliente readCliente(@PathVariable Integer id) throws ClienteInexistenteException {
-		return clienteService.listar(id);
+	public ResponseEntity<Cliente> readCliente(@PathVariable Integer id) throws ClienteInexistenteException {
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0].equals(id.toString())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		return new ResponseEntity<>(clienteService.listar(id), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void updateCliente(@PathVariable Integer id, @Valid @RequestBody ClienteDTO atualizacaoDTO) throws ClienteInexistenteException, ClienteExistenteException, UsuarioInexistenteException, UsuarioExistenteException {
+	public ResponseEntity<String> updateCliente(@PathVariable Integer id, @Valid @RequestBody ClienteDTO atualizacaoDTO) throws ClienteInexistenteException, ClienteExistenteException, UsuarioInexistenteException, UsuarioExistenteException {
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0].equals(id.toString())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 		clienteService.atualizar(clienteMapper.clienteDtoToCliente(atualizacaoDTO), id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteCliente(@PathVariable Integer id) throws ClienteInexistenteException {
+	public ResponseEntity<String> deleteCliente(@PathVariable Integer id) throws ClienteInexistenteException {
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0].equals(id.toString())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 		clienteService.deletar(id);
+		return new ResponseEntity<String>(HttpStatus.OK);
 	}
 }

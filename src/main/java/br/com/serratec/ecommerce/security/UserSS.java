@@ -2,32 +2,25 @@ package br.com.serratec.ecommerce.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserSS implements UserDetails{
 	
 	private String username;
 	private String password;
-	private String role;
 	
 
-	public UserSS(String username, String password, String role) {
+	public UserSS(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.role = role;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> list = new ArrayList<>();
-		list.add(new SimpleGrantedAuthority("ROLE_" + this.role));
-		
-		return list;
+		return new ArrayList<>();
 	}
 
 	@Override

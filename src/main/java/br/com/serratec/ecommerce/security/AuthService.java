@@ -19,6 +19,14 @@ public class AuthService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario usuario = usuarioService.getByUsername(username);
-		return new UserSS(usuario.getUsername(), usuario.getSenha(), usuario.getRole());
+		
+		if(usuario.getRole().equals("cliente")) {
+			return new UserSS(String.format("%s-%s-%s", usuario.getCliente().getId(), usuario.getUsername(), usuario.getRole()), usuario.getSenha());
+		}
+		if(usuario.getRole().equals("funcionario")) {
+			return new UserSS(String.format("%s-%s-%s", usuario.getFuncionario().getId(), usuario.getUsername(), usuario.getRole()), usuario.getSenha());
+		}
+		
+		return null;
 	}
 }
