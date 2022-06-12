@@ -38,7 +38,8 @@ public class ImagemService {
 	public void inserir(Imagem imagem) throws ImagemExistenteException {
 		imagemRepositorio.save(imagem);
 	}
-
+	
+	@Transactional
 	public Imagem atualizar(Imagem imagem, Integer id)
 			throws ImagemInexistenteException, ImagemExistenteException {
 		Optional<Imagem> optional = imagemRepositorio.findById(id);

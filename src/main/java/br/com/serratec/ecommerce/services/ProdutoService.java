@@ -80,6 +80,7 @@ public class ProdutoService {
 		if (produto.getImagem() != null) {
 			imagemService.atualizar(produto.getImagem(), oldProduto.getImagem().getId());
 		}
+
 		return produtoRepositorio.save(oldProduto);
 	}
 

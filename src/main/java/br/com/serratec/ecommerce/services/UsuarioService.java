@@ -17,7 +17,7 @@ public class UsuarioService {
 	
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
-	
+
 	
 	public void verificaExiste(String username) throws UsuarioExistenteException {
 		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
@@ -79,5 +79,13 @@ public class UsuarioService {
         
 		}
 		usuarioRepositorio.deleteById(id);
+	}
+
+	public Usuario getUsuario(String email){
+		Optional<Usuario> optional = usuarioRepositorio.findByEmail(email);
+		if(optional.isEmpty()){
+			return null;
+		}
+		return optional.get();
 	}
 }

@@ -33,7 +33,7 @@ import br.com.serratec.ecommerce.services.PedidoService;
 
 @RestController
 @RequestMapping("/pedido")
-public class pedidoController {
+public class PedidoController {
 	
 	@Autowired
 	PedidoService pedidoService;
