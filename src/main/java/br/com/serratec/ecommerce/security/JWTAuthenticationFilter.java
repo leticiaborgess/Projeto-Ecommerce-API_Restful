@@ -23,7 +23,7 @@ import br.com.serratec.ecommerce.models.Usuario;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
 	
-	public static final int TOKEN_EXPIRATION = 	600_000;
+	public static final int TOKEN_EXPIRATION = 	3600000;
 	public static final String TOKEN_SECRET = "f7471182-24a2-47d8-babd-95451be9f3bf";
 	private final AuthenticationManager authenticationManager;
 

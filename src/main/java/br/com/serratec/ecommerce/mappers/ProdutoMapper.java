@@ -1,6 +1,9 @@
 package br.com.serratec.ecommerce.mappers;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.ProdutoDTO;
@@ -27,18 +30,17 @@ public class ProdutoMapper {
 	
 	public Produto produtoDtoToProduto(ProdutoDTO produtoDTO) throws CategoriaInexistenteException, FuncionarioInexistenteException {
 		Produto produto = new Produto();
+		Integer funcionarioId = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0]);
 		
 		produto.setNome(produtoDTO.getNome());
 		produto.setDescricao(produtoDTO.getDescricao());
 		produto.setPreco(produtoDTO.getPreco());
 		produto.setQntEstoque(produtoDTO.getQntEstoque());
-		produto.setDataCadastro(produtoDTO.getDataCadastro());
+		produto.setDataCadastro(LocalDate.now());
+		produto.setFuncionario(funcionarioService.listar(funcionarioId));
 		
 		if(produtoDTO.getCategoriaId() != null) {
 			produto.setCategoria(categoriaService.listar(produtoDTO.getCategoriaId()));
-		}
-		if(produtoDTO.getFuncionarioId() != null) {
-			produto.setFuncionario(funcionarioService.listar(produtoDTO.getFuncionarioId()));			
 		}
 		
 		return produto;
