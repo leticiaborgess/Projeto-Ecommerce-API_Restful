@@ -3,10 +3,8 @@ package br.com.serratec.ecommerce.services;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.serratec.ecommerce.config.BeanConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.ecommerce.exceptions.UsuarioExistenteException;
@@ -20,10 +18,6 @@ public class UsuarioService {
 	@Autowired
 	UsuarioRepositorio usuarioRepositorio;
 
-	@Bean
-	public static BCryptPasswordEncoder bCryptPasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
 	
 	public void verificaExiste(String username) throws UsuarioExistenteException {
 		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
@@ -39,7 +33,16 @@ public class UsuarioService {
 	public Usuario listar(Integer id) throws UsuarioInexistenteException {
 		Optional<Usuario> optional = usuarioRepositorio.findById(id);
 		if (optional.isEmpty()) {
-			throw new UsuarioInexistenteException(); // TODO tratar
+			throw new UsuarioInexistenteException();
+
+		}
+		return optional.get();
+	}
+	
+	public Usuario getByUsername(String username) {
+		Optional<Usuario> optional = usuarioRepositorio.findByUsername(username);
+		if (optional.isEmpty()) {
+			throw new UsernameNotFoundException("Usuario não encontrado");
 
 		}
 		return optional.get();
@@ -47,7 +50,6 @@ public class UsuarioService {
 
 	public void inserir(Usuario usuario) throws UsuarioExistenteException {
 		verificaExiste(usuario.getUsername());
-		usuario.setSenha(BeanConfig.bCryptPasswordEncoder().encode(usuario.getSenha()));
 		usuarioRepositorio.save(usuario);
 	}
 

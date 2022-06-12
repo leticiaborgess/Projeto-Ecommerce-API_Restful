@@ -94,6 +94,7 @@ public class ProdutoController {
 		if(atualizacaoDTO != null) {
 			produto = produtoMapper.produtoDtoToProduto(atualizacaoDTO);
 		}
+
 		if(file != null) {
 			produto.setImagem(imagemMapper.multipartFileToImagem(file));
 		}

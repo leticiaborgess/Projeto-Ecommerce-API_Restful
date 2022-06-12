@@ -1,5 +1,7 @@
 package br.com.serratec.ecommerce.mappers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.FuncionarioDTO;
@@ -10,11 +12,15 @@ import br.com.serratec.ecommerce.models.Usuario;
 @Component
 public class FuncionarioMapper {
 	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	
 	public Funcionario funcionarioDtoToFuncionario(FuncionarioDTO funcionarioDTO) {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(funcionarioDTO.getEmail());
 		usuario.setUsername(funcionarioDTO.getUsername());
-		usuario.setSenha(funcionarioDTO.getSenha());
+		usuario.setSenha(bCryptPasswordEncoder.encode(funcionarioDTO.getSenha()));
 		usuario.setRole("funcionario");
 		
 		Funcionario funcionario = new Funcionario();

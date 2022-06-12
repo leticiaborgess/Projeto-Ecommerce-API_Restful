@@ -1,10 +1,6 @@
 package br.com.serratec.ecommerce.security;
 
-import br.com.serratec.ecommerce.token.JWTAuthenticationFilter;
-import br.com.serratec.ecommerce.token.JWTAuthorizationFilter;
-import br.com.serratec.ecommerce.token.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -13,41 +9,50 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.POST;
-
+@SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	
+	@Autowired
+	AuthService authService;
+	
+	@Autowired
+	BCryptPasswordEncoder bCryptPasswordEncoder;
+	
 
-    @Autowired
-    AuthService service;
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+			.csrf()
+			.disable();
+		
+		http
+			.authorizeRequests()
+			.antMatchers(HttpMethod.POST, "/login", "/cliente").permitAll()
+			.antMatchers(HttpMethod.GET, "/categoria/**", "/produto/**", "pedido/**").hasAnyRole("cliente", "funcionario")
+			.antMatchers(HttpMethod.GET, "/funcionario/**").hasRole("funcionario")
+			.antMatchers(HttpMethod.POST, "/pedido").hasRole("cliente")
+			.antMatchers(HttpMethod.POST, "/categoria", "/produto", "/funcionario").hasRole("funcionario")
+			.antMatchers(HttpMethod.PUT, "/cliente/**", "/pedido/**").hasRole("/cliente")
+			.antMatchers(HttpMethod.PUT, "/categoria/**", "/produto/**", "/funcionario/**").hasRole("funcionario")
+			.antMatchers(HttpMethod.DELETE, "/cliente").hasRole("cliente")
+			.antMatchers(HttpMethod.DELETE, "/funcionario/**", "/categoria/**", "/produto/**").hasRole("funcionario")
+			.anyRequest()
+			.authenticated()
+			.and()
+			.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+			.addFilter(new JWTAuthorizationFilter(authenticationManager()));
 
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    JWTUtil jwtUtil;
-
-    private static String[]AUTH_WHITELIST = {
-        "/cliente", "/login", "/funcionario"
-    };
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, AUTH_WHITELIST).permitAll()
-                .anyRequest().authenticated();
-        http.addFilterBefore(new JWTAuthenticationFilter(authenticationManager(), jwtUtil),
-                UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(service).passwordEncoder(bCryptPasswordEncoder);
-    }
+		http
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
+	}
+	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(authService).passwordEncoder(bCryptPasswordEncoder);
+	}
 }

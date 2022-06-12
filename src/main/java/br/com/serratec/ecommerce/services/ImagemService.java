@@ -33,7 +33,7 @@ public class ImagemService {
 		}
 		return optional.get();
 	}
-	
+
 	@Transactional
 	public void inserir(Imagem imagem) throws ImagemExistenteException {
 		imagemRepositorio.save(imagem);
@@ -49,9 +49,6 @@ public class ImagemService {
 		Imagem oldImagem = optional.get();
 		if (imagem.getNome() != null && !imagem.getNome().equals("")) {
 			oldImagem.setNome(imagem.getNome());
-		}
-		if (imagem.getMimeType() != null) {
-			oldImagem.setMimeType(imagem.getMimeType());
 		}
 		if (imagem.getMimeType() != null) {
 			oldImagem.setMimeType(imagem.getMimeType());

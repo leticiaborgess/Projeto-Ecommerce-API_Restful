@@ -78,10 +78,9 @@ public class ProdutoService {
 			oldProduto.setCategoria(produto.getCategoria());
 		}
 		if (produto.getImagem() != null) {
-			oldProduto.setImagem(produto.getImagem());
+			imagemService.atualizar(produto.getImagem(), oldProduto.getImagem().getId());
 		}
-		
-		imagemService.atualizar(oldProduto.getImagem(), id);
+
 		return produtoRepositorio.save(oldProduto);
 	}
 
