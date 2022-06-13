@@ -20,8 +20,11 @@ public class FuncionarioMapper {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(funcionarioDTO.getEmail());
 		usuario.setUsername(funcionarioDTO.getUsername());
-		usuario.setSenha(bCryptPasswordEncoder.encode(funcionarioDTO.getSenha()));
 		usuario.setRole("funcionario");
+		
+		if(funcionarioDTO.getSenha() != null) {
+			usuario.setSenha(bCryptPasswordEncoder.encode(funcionarioDTO.getSenha()));
+		}
 		
 		Funcionario funcionario = new Funcionario();
 		funcionario.setNome(funcionarioDTO.getNome());

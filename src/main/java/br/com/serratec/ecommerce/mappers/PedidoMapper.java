@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import br.com.serratec.ecommerce.dtos.PedidoDTO;
@@ -48,11 +49,7 @@ public class PedidoMapper {
 		pedido.setNumero(pedidoDTO.getNumero());
 		pedido.setDataPedido(LocalDate.now());
 		pedido.setDataEntrega(pedidoDTO.getDataEntrega());
-		
-		if(pedidoDTO.getClienteId() != null) {
-			pedido.setCliente(clienteService.listar(pedidoDTO.getClienteId()));
-		}
-		
+		pedido.setCliente(clienteService.listar(Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0])));
 		pedido.setProdutosPedidos(produtosPedidos);
 		pedido.setStatus(pedidoDTO.getStatus());
 		pedido.setValorTotal(valorTotal);

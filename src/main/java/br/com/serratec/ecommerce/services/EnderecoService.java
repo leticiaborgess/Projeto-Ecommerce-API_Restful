@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoExistenteException;
 import br.com.serratec.ecommerce.exceptions.EnderecoInexistenteException;
+import br.com.serratec.ecommerce.models.Cliente;
 import br.com.serratec.ecommerce.models.Endereco;
 import br.com.serratec.ecommerce.repositories.EnderecoRepositorio;
 
@@ -16,15 +19,19 @@ public class EnderecoService {
 	
 	@Autowired
 	EnderecoRepositorio enderecoRepositorio;
+	
+	@Autowired
+	ClienteService clienteService;
 
-	public List<Endereco> listarTudo() {
-		return enderecoRepositorio.findAll();
+	public List<Endereco> listarTudo() throws NumberFormatException, ClienteInexistenteException {
+		Cliente cliente = clienteService.listar(Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0]));
+		return enderecoRepositorio.findByCliente(cliente);
 	}
 
 	public Endereco listar(Integer id) throws EnderecoInexistenteException {
 		Optional<Endereco> optional = enderecoRepositorio.findById(id);
 		if (optional.isEmpty()) {
-			throw new EnderecoInexistenteException(); // TODO tratar
+			throw new EnderecoInexistenteException();
 
 		}
 		return optional.get();

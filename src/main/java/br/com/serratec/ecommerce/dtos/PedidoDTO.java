@@ -6,7 +6,6 @@ import java.util.List;
 public class PedidoDTO {
 	private String numero;
 	private LocalDate dataEntrega;
-	private Integer clienteId;
 	private boolean status;
 	private List<List<Integer>> pedidos;
 	
@@ -16,12 +15,11 @@ public class PedidoDTO {
 	}
 
 
-	public PedidoDTO(String numero, LocalDate dataEntrega, Integer clienteId, boolean status,
+	public PedidoDTO(String numero, LocalDate dataEntrega, boolean status,
 			List<List<Integer>> pedidos) {
 		super();
 		this.numero = numero;
 		this.dataEntrega = dataEntrega;
-		this.clienteId = clienteId;
 		this.status = status;
 		this.pedidos = pedidos;
 	}
@@ -44,16 +42,6 @@ public class PedidoDTO {
 
 	public void setDataEntrega(LocalDate dataEntrega) {
 		this.dataEntrega = dataEntrega;
-	}
-
-
-	public Integer getClienteId() {
-		return clienteId;
-	}
-
-
-	public void setClienteId(Integer clienteId) {
-		this.clienteId = clienteId;
 	}
 
 
