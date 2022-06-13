@@ -20,8 +20,11 @@ public class ClienteMapper {
 		Usuario usuario = new Usuario();
 		usuario.setEmail(clienteDTO.getEmail());
 		usuario.setUsername(clienteDTO.getUsername());
-		usuario.setSenha(bCryptPasswordEncoder.encode(clienteDTO.getSenha()));
 		usuario.setRole("cliente");
+		
+		if(clienteDTO.getSenha() != null) {			
+			usuario.setSenha(bCryptPasswordEncoder.encode(clienteDTO.getSenha()));
+		}
 		
 		Cliente cliente = new Cliente();
 		cliente.setNome(clienteDTO.getNome());

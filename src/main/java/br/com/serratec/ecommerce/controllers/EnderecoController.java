@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,14 +50,16 @@ public class EnderecoController {
 		Endereco endereco = enderecoMapper.ViaCepDtoToEndereco(restViaCep.getViaCep(enderecoDTO.getCep()));
 		endereco.setNumero(enderecoDTO.getNumero());
 		endereco.setComplemento(enderecoDTO.getComplemento());
-		endereco.setCliente(clienteService.listar(enderecoDTO.getClienteId()));
+		
+		Integer clienteId = Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0]);
+		endereco.setCliente(clienteService.listar(clienteId));
 		
 		enderecoService.inserir(endereco);
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
 	@GetMapping
-	public List<EnderecoOutDTO> readEnderecos() {
+	public List<EnderecoOutDTO> readEnderecos() throws NumberFormatException, ClienteInexistenteException {
 		List<EnderecoOutDTO> listaDTO = new ArrayList<>();
 		
 		for(Endereco endereco : enderecoService.listarTudo()) {
@@ -67,12 +70,23 @@ public class EnderecoController {
 	}
 	
 	@GetMapping("/{id}")
-	public Endereco readEndereco(@PathVariable Integer id) throws EnderecoInexistenteException {
-		return enderecoService.listar(id);
+	public ResponseEntity<Endereco> readEndereco(@PathVariable Integer id) throws EnderecoInexistenteException {
+		Endereco endereco = enderecoService.listar(id);
+				
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0].equals(endereco.getCliente().getId().toString())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		return new ResponseEntity<>(endereco, HttpStatus.OK);
 	}
 	
 	@PutMapping("/{id}")
-	public void updateEndereco(@PathVariable Integer id, @Valid @RequestBody EnderecoDTO atualizacaoDTO) throws EnderecoInexistenteException, EnderecoExistenteException {
+	public ResponseEntity<String> updateEndereco(@PathVariable Integer id, @Valid @RequestBody EnderecoDTO atualizacaoDTO) throws EnderecoInexistenteException, EnderecoExistenteException {
+		Endereco endereco = enderecoService.listar(id);
+		
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0].equals(endereco.getCliente().getId().toString())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
+		
 		Endereco atualizacao = new Endereco();
 		
 		if(atualizacaoDTO.getCep() != null) {
@@ -83,10 +97,17 @@ public class EnderecoController {
 		atualizacao.setComplemento(atualizacaoDTO.getComplemento());
 		
 		enderecoService.atualizar(atualizacao, id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deleteEndereco(@PathVariable Integer id) throws EnderecoInexistenteException {
+	public ResponseEntity<String> deleteEndereco(@PathVariable Integer id) throws EnderecoInexistenteException {
+		Endereco endereco = enderecoService.listar(id);
+
+		if(!SecurityContextHolder.getContext().getAuthentication().getName().split("-")[0].equals(endereco.getCliente().getId().toString())) {
+			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+		}
 		enderecoService.deletar(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

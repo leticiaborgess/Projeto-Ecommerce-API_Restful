@@ -4,7 +4,6 @@ public class EnderecoDTO {
 	private String cep;
 	private String numero;
 	private String complemento;
-	private Integer clienteId;
 	
 	
 	public EnderecoDTO() {
@@ -12,12 +11,11 @@ public class EnderecoDTO {
 	}
 
 
-	public EnderecoDTO(String cep, String numero, String complemento, Integer clienteId) {
+	public EnderecoDTO(String cep, String numero, String complemento) {
 		super();
 		this.cep = cep;
 		this.numero = numero;
 		this.complemento = complemento;
-		this.clienteId = clienteId;
 	}
 
 
@@ -48,15 +46,5 @@ public class EnderecoDTO {
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
-	}
-
-
-	public Integer getClienteId() {
-		return clienteId;
-	}
-
-
-	public void setClienteId(Integer clienteId) {
-		this.clienteId = clienteId;
 	}
 }

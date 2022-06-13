@@ -35,7 +35,6 @@ public class Produto {
 	private Integer qntEstoque;
 	
 	@NotNull
-	@Past
 	private LocalDate dataCadastro;
 	
 	@OneToOne(cascade = CascadeType.ALL)
