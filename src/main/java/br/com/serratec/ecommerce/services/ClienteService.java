@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.serratec.ecommerce.exceptions.ClienteExistenteException;
 import br.com.serratec.ecommerce.exceptions.ClienteInexistenteException;
@@ -41,7 +42,8 @@ public class ClienteService {
 		}
 		return optional.get();
 	}
-
+	
+	@Transactional
 	public void inserir(Cliente cliente) throws ClienteExistenteException, UsuarioExistenteException {
 		verificaExiste(cliente.getCpf());
 		usuarioService.inserir(cliente.getUsuario());

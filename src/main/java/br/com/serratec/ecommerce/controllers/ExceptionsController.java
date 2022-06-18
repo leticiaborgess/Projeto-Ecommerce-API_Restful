@@ -38,103 +38,103 @@ public class ExceptionsController {
 	@ExceptionHandler(CategoriaExistenteException.class)
 	public ResponseEntity<String> handleCategoriaExistente() {
 		String msg = "Categoria já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(CategoriaInexistenteException.class)
 	public ResponseEntity<String> handleCategoriaInexistente() {
 		String msg = "Categoria não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(ClienteExistenteException.class)
 	public ResponseEntity<String> handleClienteExistente() {
 		String msg = "Cliente já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(ClienteInexistenteException.class)
 	public ResponseEntity<String> handleClienteInexistente() {
 		String msg = "Cliente não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(EnderecoExistenteException.class)
 	public ResponseEntity<String> handleEnderecoExistente() {
 		String msg = "Endereco já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(EnderecoInexistenteException.class)
 	public ResponseEntity<String> handleEnderecoInexistente() {
 		String msg = "Endereco não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(FuncionarioExistenteException.class)
 	public ResponseEntity<String> handleFuncionarioExistente() {
 		String msg = "Funcionario já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(FuncionarioInexistenteException.class)
 	public ResponseEntity<String> handleFuncionarioInexistente() {
 		String msg = "Funcionario não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(ProdutoExistenteException.class)
 	public ResponseEntity<String> handleProdutoExistente() {
 		String msg = "Produto já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(ProdutoInexistenteException.class)
 	public ResponseEntity<String> handleProdutoInexistente() {
 		String msg = "Produto não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(UsuarioExistenteException.class)
 	public ResponseEntity<String> handleUsuarioExistente() {
 		String msg = "Usuario já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(UsuarioInexistenteException.class)
 	public ResponseEntity<String> handleUsuarioInexistente() {
 		String msg = "Usuario não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(PedidoExistenteException.class)
 	public ResponseEntity<String> handlePedidoExistente() {
 		String msg = "Pedido já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(PedidoInexistenteException.class)
 	public ResponseEntity<String> handlePedidoInexistente() {
 		String msg = "Pedido não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(ImagemExistenteException.class)
 	public ResponseEntity<String> handleImagemExistente() {
 		String msg = "Imagem já existe";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(ImagemInexistenteException.class)
 	public ResponseEntity<String> handleImagemInexistente() {
 		String msg = "Imagem não existe";
-		return ResponseEntity.notFound().header("error-msg", msg).build();
+		return ResponseEntity.notFound().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(QntEstoqueInsuficienteException.class)
 	public ResponseEntity<String> handleQntEstoqueInsuficienteInexistente() {
 		String msg = "Quantidade em estoque insuficiente";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -153,7 +153,7 @@ public class ExceptionsController {
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<String> handleConstraintViolationInexistente() {
-		String msg = "Argumento inválido";
-		return ResponseEntity.badRequest().header("error-msg", msg).build();
+		String msg = "campo inválido";
+		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 }
