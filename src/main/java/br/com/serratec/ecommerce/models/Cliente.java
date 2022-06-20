@@ -35,7 +35,7 @@ public class Cliente {
 	@Past
 	private LocalDate dataNascimento;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;
 	
 	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)

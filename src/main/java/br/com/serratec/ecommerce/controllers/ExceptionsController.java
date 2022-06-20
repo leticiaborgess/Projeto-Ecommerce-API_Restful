@@ -49,7 +49,7 @@ public class ExceptionsController {
 	
 	@ExceptionHandler(ClienteExistenteException.class)
 	public ResponseEntity<String> handleClienteExistente() {
-		String msg = "Cliente já existe";
+		String msg = "Cliente já existe. Use outro CPF";
 		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
@@ -73,7 +73,7 @@ public class ExceptionsController {
 	
 	@ExceptionHandler(FuncionarioExistenteException.class)
 	public ResponseEntity<String> handleFuncionarioExistente() {
-		String msg = "Funcionario já existe";
+		String msg = "Funcionario já existe. Use outro CPF";
 		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
@@ -97,7 +97,7 @@ public class ExceptionsController {
 	
 	@ExceptionHandler(UsuarioExistenteException.class)
 	public ResponseEntity<String> handleUsuarioExistente() {
-		String msg = "Usuario já existe";
+		String msg = "Usuario já existe. Use outro username";
 		return ResponseEntity.badRequest().header("errorMsg", msg).build();
 	}
 	
